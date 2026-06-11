@@ -3,799 +3,1146 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nova Spark — AI Adoption Companion</title>
+<title>Nova Spark — AI Experiment Forum</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --purple-50: #EEEDFE; --purple-200: #AFA9EC; --purple-400: #7F77DD; --purple-600: #534AB7; --purple-800: #3C3489; --purple-900: #26215C;
-    --teal-50: #E1F5EE; --teal-200: #5DCAA5; --teal-600: #0F6E56; --teal-800: #085041;
-    --coral-50: #FAECE7; --coral-400: #D85A30; --coral-600: #993C1D;
-    --amber-50: #FAEEDA; --amber-400: #BA7517; --amber-600: #854F0B;
-    --gray-50: #F6F5F2; --gray-100: #ECEAE4; --gray-200: #D3D1C7; --gray-400: #888780; --gray-700: #444441; --gray-900: #1A1A18;
-    --text-primary: #1A1A18; --text-secondary: #5F5E5A; --text-muted: #888780;
-    --bg: #F6F5F2; --bg-card: #FFFFFF; --border: #D3D1C7;
-    --radius-sm: 6px; --radius-md: 10px; --radius-lg: 14px; --radius-xl: 20px;
-    --font-display: 'Space Grotesk', sans-serif;
-    --font-body: 'Inter', sans-serif;
-  }
-  html { scroll-behavior: smooth; }
-  body { font-family: var(--font-body); background: var(--bg); color: var(--text-primary); font-size: 15px; line-height: 1.65; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  /* Card colours — the heart of the system */
+  --fear:    #E8473F;
+  --fear-bg: #FDF1F0;
+  --fear-border: #F5C0BD;
 
-  /* NAV */
-  nav { position: sticky; top: 0; z-index: 100; background: rgba(246,245,242,0.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; gap: 0; height: 52px; }
-  .nav-logo { display: flex; align-items: center; gap: 10px; margin-right: 2rem; text-decoration: none; }
-  .nav-spark { width: 30px; height: 30px; border-radius: 8px; background: var(--purple-600); display: flex; align-items: center; justify-content: center; }
-  .nav-name { font-family: var(--font-display); font-size: 15px; font-weight: 600; color: var(--text-primary); }
-  .nav-links { display: flex; gap: 0; flex: 1; overflow-x: auto; }
-  .nav-link { font-size: 12px; font-weight: 500; color: var(--text-secondary); padding: 0 14px; height: 52px; display: flex; align-items: center; border-bottom: 2px solid transparent; white-space: nowrap; cursor: pointer; text-decoration: none; transition: color 0.15s, border-color 0.15s; }
-  .nav-link:hover, .nav-link.active { color: var(--purple-600); border-bottom-color: var(--purple-600); }
+  --action:    #3B7DD8;
+  --action-bg: #EEF4FD;
+  --action-border: #B6D0F5;
 
-  /* SECTIONS */
-  section { padding: 4rem 2rem; max-width: 960px; margin: 0 auto; }
-  .slide-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: var(--purple-600); text-transform: uppercase; margin-bottom: 10px; }
-  h1 { font-family: var(--font-display); font-size: 40px; font-weight: 700; color: var(--text-primary); line-height: 1.15; margin-bottom: 1rem; }
-  h2 { font-family: var(--font-display); font-size: 26px; font-weight: 600; color: var(--text-primary); margin-bottom: 1rem; }
-  h3 { font-family: var(--font-display); font-size: 17px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
-  .lead { font-size: 16px; color: var(--text-secondary); line-height: 1.7; max-width: 680px; }
-  .divider { border: none; border-top: 1px solid var(--border); margin: 4rem 0; }
-  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; }
-  .card-sm { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1rem 1.25rem; }
-  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
-  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
-  .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
-  .tag { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
-  .tag-p { background: var(--purple-50); color: var(--purple-800); }
-  .tag-t { background: var(--teal-50); color: var(--teal-600); }
-  .tag-c { background: var(--coral-50); color: var(--coral-600); }
-  .tag-a { background: var(--amber-50); color: var(--amber-600); }
-  .icon-circle { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .accent-bar { width: 3px; border-radius: 3px; flex-shrink: 0; align-self: stretch; }
+  --experiment:    #1DAF72;
+  --experiment-bg: #E8F8F1;
+  --experiment-border: #8EDCB8;
 
-  /* HERO */
-  #hero { padding-top: 5rem; padding-bottom: 5rem; }
-  .hero-kicker { display: inline-flex; align-items: center; gap: 8px; background: var(--purple-50); border: 1px solid var(--purple-200); border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 500; color: var(--purple-800); margin-bottom: 1.5rem; }
-  .hero-metric-row { display: flex; gap: 2rem; margin-top: 2.5rem; flex-wrap: wrap; }
-  .hero-metric { border-left: 3px solid var(--purple-400); padding-left: 1rem; }
-  .hero-metric-num { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--text-primary); line-height: 1; }
-  .hero-metric-lbl { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+  --learning:    #D4900A;
+  --learning-bg: #FDF5E3;
+  --learning-border: #F5D98C;
 
-  /* PROBLEM */
-  .mindset-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 1.5rem; }
-  .mindset-row { display: flex; gap: 12px; align-items: flex-start; padding: 1rem; border-radius: var(--radius-md); }
-  .mindset-old { background: var(--coral-50); border: 1px solid #F5C4B3; }
-  .mindset-new { background: var(--teal-50); border: 1px solid #9FE1CB; }
-  .mindset-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
-  .mindset-old .mindset-label { color: var(--coral-600); }
-  .mindset-new .mindset-label { color: var(--teal-600); }
-  .mindset-text { font-size: 13px; line-height: 1.5; color: var(--text-primary); }
-  @media (max-width: 600px) { .mindset-grid { grid-template-columns: 1fr; } }
+  /* Neutral system */
+  --ink:    #16150F;
+  --ink-2:  #4A4840;
+  --ink-3:  #8A8880;
+  --rule:   #E2E0D8;
+  --wash:   #F7F6F2;
+  --white:  #FFFFFF;
 
-  /* PERSONA STRIP */
-  .persona-strip { display: flex; gap: 14px; margin-top: 1.5rem; flex-wrap: wrap; }
-  .persona-card { flex: 1; min-width: 200px; padding: 1rem 1.25rem; border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--bg-card); display: flex; flex-direction: column; gap: 8px; }
-  .persona-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 13px; font-weight: 600; }
-  .persona-name { font-size: 14px; font-weight: 600; }
-  .persona-role { font-size: 11px; color: var(--text-muted); }
-  .persona-quote { font-size: 12px; color: var(--text-secondary); font-style: italic; line-height: 1.55; border-left: 2px solid var(--border); padding-left: 10px; }
-  .persona-blocker { font-size: 11px; font-weight: 500; margin-top: 4px; }
+  /* Spark brand */
+  --spark:       #5548D9;
+  --spark-light: #EAE8FC;
 
-  /* SOLUTION */
-  .spark-logo-lg { width: 56px; height: 56px; border-radius: 14px; background: var(--purple-600); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
-  .not-another-tool { background: var(--gray-900); color: #fff; border-radius: var(--radius-xl); padding: 2rem 2.5rem; margin-top: 2rem; }
-  .not-another-tool h3 { color: #fff; font-size: 18px; margin-bottom: 1rem; }
-  .not-another-tool p { color: #B4B2A9; font-size: 14px; line-height: 1.7; }
-  .principle-list { margin-top: 1.25rem; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .principle-item { display: flex; gap: 10px; align-items: flex-start; }
-  .principle-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--purple-400); flex-shrink: 0; margin-top: 5px; }
-  .principle-text { font-size: 13px; color: #D3D1C7; line-height: 1.5; }
-  @media (max-width: 600px) { .principle-list { grid-template-columns: 1fr; } .not-another-tool { padding: 1.5rem; } }
+  --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-xl: 24px;
+  --display: 'DM Sans', sans-serif;
+  --body: 'DM Sans', sans-serif;
+}
 
-  /* USER JOURNEY */
-  .journey-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
-  .jtab { border: 1px solid var(--border); background: var(--bg-card); border-radius: var(--radius-md); padding: 8px 14px; font-size: 12px; font-weight: 500; cursor: pointer; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; transition: all 0.15s; }
-  .jtab.active { border-color: var(--purple-600); background: var(--purple-50); color: var(--purple-800); }
-  .jtab:hover:not(.active) { background: var(--gray-50); color: var(--text-primary); }
-  .jtab-num { width: 18px; height: 18px; border-radius: 50%; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: 600; }
-  .jtab.active .jtab-num { background: var(--purple-600); color: #fff; }
-  .jtab:not(.active) .jtab-num { background: var(--gray-100); color: var(--text-muted); }
-  .journey-panel { display: none; }
-  .journey-panel.active { display: block; }
-  .journey-row { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
-  .jrow-icon { width: 36px; height: 36px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .jrow-content { flex: 1; }
-  .jrow-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); margin-bottom: 3px; }
-  .jrow-text { font-size: 13px; color: var(--text-primary); line-height: 1.6; }
-  .feature-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-  .feature-chip { display: flex; align-items: center; gap: 6px; background: var(--gray-50); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 10px; font-size: 12px; color: var(--text-secondary); }
-  .feature-chip i { font-size: 14px; color: var(--purple-600); }
+html { scroll-behavior: smooth; }
+body { font-family: var(--body); background: var(--wash); color: var(--ink); font-size: 15px; line-height: 1.65; }
 
-  /* CHALLENGES / HABIT */
-  .fn-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
-  .fntab { border: 1px solid var(--border); background: var(--bg-card); border-radius: var(--radius-md); padding: 7px 14px; font-size: 12px; font-weight: 500; cursor: pointer; color: var(--text-secondary); transition: all 0.15s; }
-  .fntab.active { border-color: var(--teal-600); background: var(--teal-50); color: var(--teal-600); }
-  .fntab:hover:not(.active) { background: var(--gray-50); }
-  .fn-panel { display: none; }
-  .fn-panel.active { display: block; }
-  .challenge-track { position: relative; padding-left: 28px; }
-  .challenge-track::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: var(--border); }
-  .challenge-item { position: relative; margin-bottom: 14px; }
-  .challenge-dot { position: absolute; left: -22px; top: 4px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--bg-card); }
-  .challenge-wk { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
-  .challenge-name { font-size: 13px; font-weight: 500; color: var(--text-primary); }
-  .challenge-desc { font-size: 12px; color: var(--text-secondary); }
-  .habit-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--teal-50); border: 1px solid var(--teal-200); border-radius: var(--radius-md); padding: 10px 16px; font-size: 13px; font-weight: 500; color: var(--teal-600); margin-top: 1rem; }
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(247,246,242,0.94); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--rule);
+  padding: 0 2rem; display: flex; align-items: center; height: 54px; gap: 0;
+}
+.nav-brand { display: flex; align-items: center; gap: 10px; margin-right: 2.5rem; text-decoration: none; }
+.nav-bolt {
+  width: 32px; height: 32px; border-radius: 9px;
+  background: var(--spark); display: flex; align-items: center; justify-content: center;
+}
+.nav-bolt svg { width: 16px; height: 16px; fill: #fff; }
+.nav-name { font-family: var(--display); font-size: 15px; font-weight: 600; color: var(--ink); letter-spacing: 0; }
+.nav-links { display: flex; gap: 0; overflow-x: auto; flex: 1; }
+.nav-link {
+  font-size: 12px; font-weight: 500; color: var(--ink-3);
+  padding: 0 14px; height: 54px; display: flex; align-items: center;
+  border-bottom: 2px solid transparent; white-space: nowrap;
+  text-decoration: none; cursor: pointer;
+  transition: color .15s, border-color .15s;
+}
+.nav-link:hover, .nav-link.active { color: var(--spark); border-bottom-color: var(--spark); }
 
-  /* TIMELINE */
-  .timeline-wrap { position: relative; margin-top: 1.5rem; }
-  .timeline-bar { height: 6px; background: var(--gray-100); border-radius: 3px; margin-bottom: 2rem; position: relative; }
-  .timeline-phases { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-  .tphase { border-radius: var(--radius-lg); padding: 1.25rem; border: 1px solid var(--border); }
-  .tphase-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-  .tphase-num { width: 28px; height: 28px; border-radius: 50%; font-family: var(--font-display); font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
-  .tphase-title { font-size: 14px; font-weight: 600; }
-  .tphase-duration { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; }
-  .tphase-items { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-  .tphase-items li { font-size: 12px; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 6px; line-height: 1.5; }
-  .tphase-items li::before { content: '—'; color: var(--gray-200); flex-shrink: 0; }
-  @media (max-width: 640px) { .timeline-phases { grid-template-columns: 1fr; } }
+/* ── SECTIONS ── */
+section { padding: 4.5rem 2rem; max-width: 980px; margin: 0 auto; }
+.eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; color: var(--spark); margin-bottom: 12px; }
+h1 { font-family: var(--display); font-size: 42px; font-weight: 700; line-height: 1.15; letter-spacing: -.01em; color: var(--ink); margin-bottom: 1rem; }
+h2 { font-family: var(--display); font-size: 26px; font-weight: 600; letter-spacing: -.005em; color: var(--ink); margin-bottom: .75rem; }
+h3 { font-family: var(--display); font-size: 16px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+.lead { font-size: 16px; color: var(--ink-2); line-height: 1.72; max-width: 680px; }
+hr.rule { border: none; border-top: 1px solid var(--rule); margin: 0; }
 
-  /* MANAGEMENT DASHBOARD */
-  .mgmt-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
-  .mtab { border: 1px solid var(--border); background: var(--bg-card); border-radius: var(--radius-md); padding: 7px 14px; font-size: 12px; font-weight: 500; cursor: pointer; color: var(--text-secondary); transition: all 0.15s; }
-  .mtab.active { border-color: var(--amber-400); background: var(--amber-50); color: var(--amber-600); }
-  .mtab:hover:not(.active) { background: var(--gray-50); }
-  .mgmt-panel { display: none; }
-  .mgmt-panel.active { display: block; }
-  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
-  .stat-box { background: var(--gray-50); border-radius: var(--radius-md); padding: 14px; }
-  .stat-num { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--text-primary); line-height: 1; }
-  .stat-lbl { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
-  .stat-trend { font-size: 11px; margin-top: 6px; }
-  .progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-  .progress-label { font-size: 12px; color: var(--text-secondary); width: 130px; flex-shrink: 0; }
-  .progress-bar-wrap { flex: 1; height: 8px; background: var(--gray-100); border-radius: 4px; overflow: hidden; }
-  .progress-bar-fill { height: 100%; border-radius: 4px; }
-  .progress-pct { font-size: 12px; font-weight: 500; color: var(--text-primary); width: 36px; text-align: right; flex-shrink: 0; }
+/* ── HERO ── */
+#hero { padding-top: 5.5rem; padding-bottom: 5.5rem; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--spark-light); border: 1px solid #C5C0F5;
+  border-radius: 20px; padding: 5px 14px;
+  font-size: 12px; font-weight: 500; color: var(--spark); margin-bottom: 1.5rem;
+}
+.card-strip { display: flex; gap: 8px; margin-top: 2.5rem; flex-wrap: wrap; }
+.pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  border-radius: 20px; padding: 6px 14px;
+  font-size: 12px; font-weight: 600;
+}
+.pill-fear        { background: var(--fear-bg);       color: var(--fear);       border: 1px solid var(--fear-border); }
+.pill-action      { background: var(--action-bg);     color: var(--action);     border: 1px solid var(--action-border); }
+.pill-experiment  { background: var(--experiment-bg); color: var(--experiment); border: 1px solid var(--experiment-border); }
+.pill-learning    { background: var(--learning-bg);   color: var(--learning);   border: 1px solid var(--learning-border); }
+.pill-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 
-  /* ARCHITECTURE */
-  .arch-wrap { background: var(--gray-900); border-radius: var(--radius-xl); padding: 2rem; margin-top: 1.5rem; overflow-x: auto; }
-  .arch-layer { margin-bottom: 1.25rem; }
-  .arch-layer-label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #888780; margin-bottom: 8px; }
-  .arch-nodes { display: flex; gap: 8px; flex-wrap: wrap; }
-  .arch-node { border-radius: var(--radius-md); padding: 8px 14px; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-  .arch-node i { font-size: 14px; }
-  .arch-node-spark { background: var(--purple-600); color: #fff; border: 2px solid var(--purple-400); }
-  .arch-node-existing { background: #2C2C2A; color: #B4B2A9; border: 1px solid #444441; }
-  .arch-node-new { background: #1A2E24; color: #5DCAA5; border: 1px solid #085041; }
-  .arch-connector { text-align: center; color: #444441; font-size: 20px; margin-bottom: -4px; }
-  .arch-legend { display: flex; gap: 1.5rem; margin-top: 1.25rem; flex-wrap: wrap; }
-  .arch-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #888780; }
-  .arch-legend-dot { width: 10px; height: 10px; border-radius: 3px; }
-  .roadmap-phases { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 1.5rem; }
-  .roadmap-card { border-radius: var(--radius-lg); padding: 1.25rem; border: 1px solid var(--border); background: var(--bg-card); }
-  .roadmap-phase-tag { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
-  .roadmap-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
-  .roadmap-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 10px; }
-  .roadmap-items { list-style: none; display: flex; flex-direction: column; gap: 5px; }
-  .roadmap-items li { font-size: 12px; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 6px; }
-  .roadmap-items li i { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.hero-stats { display: flex; gap: 2.5rem; margin-top: 2.5rem; flex-wrap: wrap; }
+.hstat { border-left: 3px solid var(--spark); padding-left: 1rem; }
+.hstat-n { font-family: var(--display); font-size: 28px; font-weight: 700; color: var(--ink); line-height: 1; letter-spacing: -.01em; }
+.hstat-l { font-size: 12px; color: var(--ink-3); margin-top: 4px; }
 
-  /* FOOTER */
-  footer { background: var(--gray-900); color: #888780; text-align: center; padding: 2rem; font-size: 13px; }
-  footer strong { color: #fff; }
+/* ── PROBLEM ── */
+.blocker-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 1.5rem; }
+.blocker-item {
+  background: var(--white); border: 1px solid var(--rule);
+  border-radius: var(--r-lg); padding: 1.1rem 1.25rem;
+  display: flex; gap: 12px; align-items: flex-start;
+}
+.blocker-icon {
+  width: 36px; height: 36px; border-radius: var(--r-sm);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 17px;
+}
+.blocker-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--ink-3); margin-bottom: 3px; }
+.blocker-text { font-size: 13px; color: var(--ink); line-height: 1.55; }
+@media (max-width: 580px) { .blocker-grid { grid-template-columns: 1fr; } }
 
-  /* SCROLLSPY active */
-  section { scroll-margin-top: 60px; }
+.ps-box {
+  background: var(--ink); color: #fff;
+  border-radius: var(--r-xl); padding: 2rem 2.5rem; margin-top: 2rem;
+}
+.ps-box p { font-size: 15px; line-height: 1.75; color: #C8C6BE; }
+.ps-box strong { color: #fff; }
+
+/* ── HOW IT WORKS ── */
+.how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; margin-top: 1.75rem; }
+.how-card {
+  background: var(--white); border: 1px solid var(--rule);
+  border-radius: var(--r-lg); padding: 1.25rem 1.4rem;
+}
+.how-num {
+  font-family: var(--display); font-size: 28px; font-weight: 800;
+  color: var(--rule); line-height: 1; margin-bottom: .5rem;
+}
+.how-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+.how-desc { font-size: 12px; color: var(--ink-3); line-height: 1.6; }
+
+/* ── CARD SYSTEM ── */
+.card-type-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 1.75rem; }
+@media (max-width: 800px) { .card-type-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .card-type-grid { grid-template-columns: 1fr; } }
+.card-type {
+  border-radius: var(--r-lg); padding: 1.25rem 1.4rem;
+  border: 1.5px solid;
+}
+.card-type-fear       { background: var(--fear-bg);       border-color: var(--fear-border); }
+.card-type-action     { background: var(--action-bg);     border-color: var(--action-border); }
+.card-type-experiment { background: var(--experiment-bg); border-color: var(--experiment-border); }
+.card-type-learning   { background: var(--learning-bg);   border-color: var(--learning-border); }
+
+.ct-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.ct-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.ct-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+.ct-fear       .ct-label { color: var(--fear); }
+.ct-action     .ct-label { color: var(--action); }
+.ct-experiment .ct-label { color: var(--experiment); }
+.ct-learning   .ct-label { color: var(--learning); }
+.ct-title { font-size: 14px; font-weight: 600; color: var(--ink); margin-bottom: 6px; }
+.ct-desc { font-size: 12px; color: var(--ink-2); line-height: 1.6; margin-bottom: 10px; }
+.ct-examples { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.ct-examples li { font-size: 11px; color: var(--ink-3); padding-left: 12px; position: relative; line-height: 1.5; }
+.ct-examples li::before { content: ''; position: absolute; left: 0; top: 7px; width: 5px; height: 5px; border-radius: 50%; }
+.ct-fear       .ct-examples li::before { background: var(--fear); }
+.ct-action     .ct-examples li::before { background: var(--action); }
+.ct-experiment .ct-examples li::before { background: var(--experiment); }
+.ct-learning   .ct-examples li::before { background: var(--learning); }
+
+/* ── POINTS ── */
+.pts-intro { background: var(--white); border: 1px solid var(--rule); border-radius: var(--r-lg); padding: 1.5rem; margin-top: 1.75rem; }
+.pts-table { width: 100%; border-collapse: collapse; margin-top: 1.25rem; }
+.pts-table th { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--ink-3); padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--rule); }
+.pts-table td { font-size: 13px; color: var(--ink-2); padding: 10px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+.pts-table tr:last-child td { border-bottom: none; }
+.pts-table td:last-child { font-family: var(--display); font-weight: 700; font-size: 14px; color: var(--ink); text-align: right; }
+.pts-badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 10px; }
+
+.weekly-box { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 1.25rem; }
+.wbox {
+  border-radius: var(--r-md); padding: 1rem 1.25rem;
+  border: 1px solid var(--rule); background: var(--wash);
+}
+.wbox-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .07em; color: var(--ink-3); margin-bottom: 4px; }
+.wbox-val { font-family: var(--display); font-size: 22px; font-weight: 800; color: var(--ink); line-height: 1; }
+.wbox-sub { font-size: 11px; color: var(--ink-3); margin-top: 3px; }
+@media (max-width: 500px) { .weekly-box { grid-template-columns: 1fr; } }
+
+.reward-tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 1.5rem; }
+.rtier {
+  background: var(--white); border: 1px solid var(--rule);
+  border-radius: var(--r-lg); padding: 1.1rem 1.25rem;
+  text-align: center;
+}
+.rtier-icon { font-size: 28px; margin-bottom: 6px; }
+.rtier-name { font-family: var(--display); font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+.rtier-pts { font-size: 12px; color: var(--spark); font-weight: 600; margin-bottom: 6px; }
+.rtier-perk { font-size: 11px; color: var(--ink-3); line-height: 1.55; }
+
+/* ── FORUM MOCKUP ── */
+.forum-wrap { background: var(--white); border: 1px solid var(--rule); border-radius: var(--r-xl); overflow: hidden; margin-top: 1.75rem; }
+.forum-header { background: var(--spark); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+.forum-header-left { display: flex; align-items: center; gap: 10px; }
+.forum-header-left span { font-family: var(--display); font-size: 14px; font-weight: 700; color: #fff; }
+.forum-week-badge { background: rgba(255,255,255,.2); color: #fff; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 10px; }
+.forum-body { display: grid; grid-template-columns: 220px 1fr; }
+@media (max-width: 620px) { .forum-body { grid-template-columns: 1fr; } }
+
+.forum-sidebar { border-right: 1px solid var(--rule); padding: 1.25rem; }
+.sidebar-section { margin-bottom: 1.25rem; }
+.sidebar-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); margin-bottom: 8px; }
+.progress-track { display: flex; flex-direction: column; gap: 8px; }
+.pt-row { display: flex; align-items: center; gap: 8px; }
+.pt-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.pt-label { font-size: 12px; color: var(--ink-2); flex: 1; }
+.pt-count { font-size: 11px; font-weight: 600; color: var(--ink); }
+.pt-bar-wrap { height: 4px; background: var(--rule); border-radius: 2px; overflow: hidden; margin-top: 2px; }
+.pt-bar-fill { height: 100%; border-radius: 2px; }
+
+.pts-display { background: var(--spark-light); border-radius: var(--r-md); padding: 10px 12px; text-align: center; }
+.pts-display-num { font-family: var(--display); font-size: 26px; font-weight: 800; color: var(--spark); line-height: 1; }
+.pts-display-lbl { font-size: 11px; color: var(--spark); margin-top: 2px; }
+.pts-display-tier { font-size: 10px; color: var(--ink-3); margin-top: 4px; }
+
+.forum-feed { padding: 1.25rem; display: flex; flex-direction: column; gap: 10px; }
+.forum-tabs { display: flex; gap: 6px; margin-bottom: 4px; flex-wrap: wrap; }
+.ftab {
+  font-size: 11px; font-weight: 600; padding: 5px 10px;
+  border-radius: 20px; border: 1px solid var(--rule);
+  background: var(--wash); color: var(--ink-3); cursor: pointer;
+  transition: all .15s;
+}
+.ftab.active-fear       { background: var(--fear-bg);       color: var(--fear);       border-color: var(--fear-border); }
+.ftab.active-action     { background: var(--action-bg);     color: var(--action);     border-color: var(--action-border); }
+.ftab.active-experiment { background: var(--experiment-bg); color: var(--experiment); border-color: var(--experiment-border); }
+.ftab.active-learning   { background: var(--learning-bg);   color: var(--learning);   border-color: var(--learning-border); }
+.ftab.active-all        { background: var(--spark-light);   color: var(--spark);      border-color: #C5C0F5; }
+
+.post {
+  border: 1px solid var(--rule); border-radius: var(--r-md);
+  padding: .9rem 1.1rem; background: var(--white);
+  border-left: 3px solid;
+}
+.post-fear       { border-left-color: var(--fear); }
+.post-action     { border-left-color: var(--action); }
+.post-experiment { border-left-color: var(--experiment); }
+.post-learning   { border-left-color: var(--learning); }
+
+.post-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+.post-avatar { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #fff; flex-shrink: 0; }
+.post-author { font-size: 12px; font-weight: 600; color: var(--ink); }
+.post-role { font-size: 11px; color: var(--ink-3); }
+.post-type-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; margin-left: auto; }
+.badge-fear       { background: var(--fear-bg);       color: var(--fear); }
+.badge-action     { background: var(--action-bg);     color: var(--action); }
+.badge-experiment { background: var(--experiment-bg); color: var(--experiment); }
+.badge-learning   { background: var(--learning-bg);   color: var(--learning); }
+
+.post-text { font-size: 13px; color: var(--ink-2); line-height: 1.6; }
+.post-footer { display: flex; align-items: center; gap: 12px; margin-top: 8px; }
+.post-pts { font-size: 11px; font-weight: 600; color: var(--spark); }
+.post-react { font-size: 11px; color: var(--ink-3); }
+
+/* ── TRACK SELECTOR ── */
+.track-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.ttab {
+  border: 1px solid var(--rule); background: var(--white);
+  border-radius: var(--r-md); padding: 7px 16px;
+  font-size: 12px; font-weight: 500; cursor: pointer; color: var(--ink-3);
+  transition: all .15s;
+}
+.ttab:hover { background: var(--wash); color: var(--ink); }
+.ttab.active { border-color: var(--experiment); background: var(--experiment-bg); color: var(--experiment); font-weight: 600; }
+
+.week-grid { display: flex; flex-direction: column; gap: 10px; }
+.week-item {
+  background: var(--white); border: 1px solid var(--rule);
+  border-radius: var(--r-md); padding: 1rem 1.25rem;
+  display: flex; gap: 14px; align-items: flex-start;
+}
+.week-num {
+  font-family: var(--display); font-size: 12px; font-weight: 700;
+  color: var(--ink-3); min-width: 42px; padding-top: 2px;
+}
+.week-content { flex: 1; }
+.week-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+.week-desc { font-size: 12px; color: var(--ink-3); line-height: 1.55; }
+.week-cards { display: flex; gap: 5px; margin-top: 8px; flex-wrap: wrap; }
+.wc { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 10px; }
+.wc-f { background: var(--fear-bg);       color: var(--fear); }
+.wc-a { background: var(--action-bg);     color: var(--action); }
+.wc-e { background: var(--experiment-bg); color: var(--experiment); }
+.wc-l { background: var(--learning-bg);   color: var(--learning); }
+.week-completion { font-size: 10px; color: var(--ink-3); margin-top: 6px; }
+.week-completion strong { color: var(--spark); }
+
+/* ── COMPLETION FLOW ── */
+.flow-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0; margin-top: 1.75rem; position: relative; }
+.flow-step {
+  background: var(--white); border: 1px solid var(--rule);
+  padding: 1.25rem 1.4rem; position: relative;
+}
+.flow-step:not(:last-child) { border-right: none; }
+.flow-step:first-child { border-radius: var(--r-lg) 0 0 var(--r-lg); }
+.flow-step:last-child  { border-radius: 0 var(--r-lg) var(--r-lg) 0; }
+.flow-step-n { font-family: var(--display); font-size: 32px; font-weight: 800; color: var(--rule); line-height: 1; margin-bottom: .4rem; }
+.flow-step-title { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+.flow-step-desc { font-size: 12px; color: var(--ink-3); line-height: 1.55; }
+.flow-arrow { position: absolute; right: -10px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; background: var(--spark); border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1; }
+.flow-arrow svg { width: 10px; height: 10px; fill: #fff; }
+@media (max-width: 640px) {
+  .flow-steps { grid-template-columns: 1fr; }
+  .flow-step:not(:last-child) { border-right: 1px solid var(--rule); border-bottom: none; }
+  .flow-step:first-child { border-radius: var(--r-lg) var(--r-lg) 0 0; }
+  .flow-step:last-child  { border-radius: 0 0 var(--r-lg) var(--r-lg); }
+  .flow-arrow { right: 50%; bottom: -10px; top: auto; transform: translateX(50%) rotate(90deg); }
+}
+
+/* ── MANAGEMENT ── */
+.mgmt-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.mtab {
+  border: 1px solid var(--rule); background: var(--white);
+  border-radius: var(--r-md); padding: 7px 16px;
+  font-size: 12px; font-weight: 500; cursor: pointer; color: var(--ink-3);
+  transition: all .15s;
+}
+.mtab.active { border-color: var(--learning); background: var(--learning-bg); color: var(--learning); font-weight: 600; }
+
+.stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+.stat-box { background: var(--wash); border-radius: var(--r-md); padding: 14px; }
+.stat-n { font-family: var(--display); font-size: 24px; font-weight: 800; color: var(--ink); line-height: 1; }
+.stat-l { font-size: 11px; color: var(--ink-3); margin-top: 4px; }
+.stat-t { font-size: 11px; margin-top: 5px; font-weight: 600; }
+
+.prog-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.prog-lbl { font-size: 12px; color: var(--ink-2); width: 140px; flex-shrink: 0; }
+.prog-wrap { flex: 1; height: 8px; background: var(--rule); border-radius: 4px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 4px; background: var(--spark); }
+.prog-pct { font-size: 12px; font-weight: 600; color: var(--ink); width: 38px; text-align: right; flex-shrink: 0; }
+
+.design-note {
+  margin-top: 1.25rem; padding: 1rem 1.25rem;
+  background: var(--learning-bg); border-radius: var(--r-md);
+  border-left: 3px solid var(--learning);
+}
+.dn-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--learning); margin-bottom: 4px; }
+.dn-text { font-size: 12px; color: var(--ink-2); line-height: 1.6; }
+
+/* ── TIMELINE ── */
+.phase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-top: 1.75rem; }
+.phase-card { background: var(--white); border: 1px solid var(--rule); border-radius: var(--r-lg); padding: 1.25rem; }
+.phase-hd { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.phase-num { width: 28px; height: 28px; border-radius: 50%; font-family: var(--display); font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+.phase-title { font-size: 15px; font-weight: 700; }
+.phase-dur { font-size: 11px; color: var(--ink-3); margin-bottom: 10px; }
+.phase-items { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.phase-items li { font-size: 12px; color: var(--ink-3); display: flex; gap: 7px; line-height: 1.5; }
+.phase-items li::before { content: '→'; color: var(--rule); flex-shrink: 0; }
+
+/* ── RETIRE ── */
+#retire { padding-top: 3rem; padding-bottom: 5rem; }
+.retire-box {
+  background: var(--ink); color: #fff;
+  border-radius: var(--r-xl); padding: 2.5rem 3rem;
+}
+.retire-box .eyebrow { color: #8A8880; }
+.retire-box h2 { color: #fff; font-size: 26px; font-weight: 600; }
+.retire-box .lead { color: #8A8880; margin-top: .75rem; }
+.retire-rule { display: flex; align-items: flex-start; gap: 12px; margin-top: 1.75rem; }
+.rr-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--spark); flex-shrink: 0; margin-top: 7px; }
+.rr-text { font-size: 14px; color: #C8C6BE; line-height: 1.65; }
+.rr-text strong { color: #fff; }
+
+/* ── FOOTER ── */
+footer { background: var(--ink); color: #5A5850; text-align: center; padding: 2rem; font-size: 12px; }
+footer strong { color: #fff; }
+
+section { scroll-margin-top: 60px; }
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
-  <a class="nav-logo" href="#hero">
-    <div class="nav-spark"><i class="ti ti-bolt" style="color:#fff;font-size:16px" aria-hidden="true"></i></div>
+  <a class="nav-brand" href="#hero">
+    <div class="nav-bolt">
+      <svg viewBox="0 0 24 24"><path d="M13 2L4.09 12.97H11L10 22l8.91-10.97H13L13 2z"/></svg>
+    </div>
     <span class="nav-name">Nova Spark</span>
   </a>
   <div class="nav-links">
     <a class="nav-link" href="#problem">Problem</a>
-    <a class="nav-link" href="#solution">Solution</a>
-    <a class="nav-link" href="#journey">User Journey</a>
-    <a class="nav-link" href="#challenges">Challenges & Habit</a>
-    <a class="nav-link" href="#timeline">Timeline</a>
+    <a class="nav-link" href="#how">How It Works</a>
+    <a class="nav-link" href="#cards">Card System</a>
+    <a class="nav-link" href="#points">Points & Rewards</a>
+    <a class="nav-link" href="#forum">Forum View</a>
+    <a class="nav-link" href="#tracks">Weekly Tracks</a>
     <a class="nav-link" href="#management">Management View</a>
-    <a class="nav-link" href="#architecture">Architecture</a>
+    <a class="nav-link" href="#timeline">Timeline</a>
+    <a class="nav-link" href="#retire">Why It Retires</a>
   </div>
 </nav>
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-kicker">
-    <i class="ti ti-bolt" style="font-size:14px;color:#534AB7" aria-hidden="true"></i>
+  <div class="hero-badge">
+    <svg viewBox="0 0 24 24" style="width:13px;height:13px;fill:#5548D9"><path d="M13 2L4.09 12.97H11L10 22l8.91-10.97H13L13 2z"/></svg>
     Nova Insurance Group · AI Transformation Agenda
   </div>
-  <h1>The tools are there.<br>The people aren't moving.</h1>
-  <p class="lead">Nova Spark is not another AI tool sitting on the intranet. It's the behaviour change engine that makes all the other tools actually get used — by changing the mindset before demanding the habit.</p>
-  <div class="hero-metric-row">
-    <div class="hero-metric">
-      <div class="hero-metric-num">8,000</div>
-      <div class="hero-metric-lbl">employees across 5 countries</div>
-    </div>
-    <div class="hero-metric">
-      <div class="hero-metric-num">6 months</div>
-      <div class="hero-metric-lbl">since launch · minimal change</div>
-    </div>
-    <div class="hero-metric">
-      <div class="hero-metric-num">12 tools</div>
-      <div class="hero-metric-lbl">on the portal · no clear entry point</div>
-    </div>
-    <div class="hero-metric">
-      <div class="hero-metric-num">0 scripts</div>
-      <div class="hero-metric-lbl">for managers handling fear questions</div>
-    </div>
+  <h1>The on-ramp to<br>AI that actually works.</h1>
+  <p class="lead">Nova Spark is a weekly forum-based AI experiment companion. Employees post four colour-coded cards every week — naming fears, taking actions, running experiments, and sharing what they learned. The habit builds itself.</p>
+
+  <div class="card-strip">
+    <span class="pill pill-fear"><span class="pill-dot" style="background:var(--fear)"></span>Fear Card</span>
+    <span class="pill pill-action"><span class="pill-dot" style="background:var(--action)"></span>Action Card</span>
+    <span class="pill pill-experiment"><span class="pill-dot" style="background:var(--experiment)"></span>Experiment Card</span>
+    <span class="pill pill-learning"><span class="pill-dot" style="background:var(--learning)"></span>Learning Card</span>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-n">8,000</div><div class="hstat-l">Nova employees across 5 SE Asian offices</div></div>
+    <div class="hstat"><div class="hstat-n">20</div><div class="hstat-l">Cards posted per employee per week</div></div>
+    <div class="hstat"><div class="hstat-n">4</div><div class="hstat-l">Job-function tracks: Claims, HR, Finance, CX</div></div>
   </div>
 </section>
-
-<hr class="divider" style="margin:0">
+<hr class="rule">
 
 <!-- PROBLEM -->
 <section id="problem">
-  <div class="slide-label">The problem</div>
-  <h2>It's not a technology gap. It's a mindset gap.</h2>
-  <p class="lead">Nova gave people information. What they needed was a first safe action. Across all three archetypes, the same pattern shows up: the cost of trying feels higher than the benefit of starting.</p>
+  <div class="eyebrow">The Problem</div>
+  <h2>Six months in. Nothing has changed.</h2>
+  <p class="lead">Nova gave people tools. Nova gave people training. Nova ran two town halls. The problem isn't awareness. It's that people are stuck in a loop of waiting — for certainty, for the right moment, for permission to try.</p>
 
-  <div class="mindset-grid" style="margin-bottom:2rem;">
-    <div>
-      <div style="font-size:12px;font-weight:600;color:var(--coral-600);margin-bottom:8px;display:flex;align-items:center;gap:6px;"><i class="ti ti-x" aria-hidden="true"></i> Current thinking at Nova</div>
-      <div style="display:flex;flex-direction:column;gap:8px;">
-        <div class="mindset-row mindset-old"><div><div class="mindset-label">Waiting</div><div class="mindset-text">For certainty, a perfect plan, and the right moment — none of which will arrive</div></div></div>
-        <div class="mindset-row mindset-old"><div><div class="mindset-label">Thinking big</div><div class="mindset-text">Transformation feels like a full workflow redesign, not one small task</div></div></div>
-        <div class="mindset-row mindset-old"><div><div class="mindset-label">Avoiding failure</div><div class="mindset-text">Optimising for not getting it wrong, rather than learning by trying</div></div></div>
-        <div class="mindset-row mindset-old"><div><div class="mindset-label">Working alone</div><div class="mindset-text">Processing uncertainty solo instead of experimenting as a team</div></div></div>
-      </div>
+  <div class="blocker-grid" style="margin-top:1.5rem;">
+    <div class="blocker-item">
+      <div class="blocker-icon" style="background:#FDF1F0;">😰</div>
+      <div><div class="blocker-label">Marcus, Claims</div><div class="blocker-text">"I manage 14 people and have a 200-claim backlog. When exactly am I supposed to figure out agentic AI?"</div></div>
     </div>
-    <div>
-      <div style="font-size:12px;font-weight:600;color:var(--teal-600);margin-bottom:8px;display:flex;align-items:center;gap:6px;"><i class="ti ti-check" aria-hidden="true"></i> Target thinking after Spark</div>
-      <div style="display:flex;flex-direction:column;gap:8px;">
-        <div class="mindset-row mindset-new"><div><div class="mindset-label">Experimenting</div><div class="mindset-text">What can I test this week? A small trial beats a perfect plan every time</div></div></div>
-        <div class="mindset-row mindset-new"><div><div class="mindset-label">One small win</div><div class="mindset-text">One task, one tool, one result — build from that, not from a grand redesign</div></div></div>
-        <div class="mindset-row mindset-new"><div><div class="mindset-label">Learning from trying</div><div class="mindset-text">A failed experiment has a name: a data point. It still counts as progress</div></div></div>
-        <div class="mindset-row mindset-new"><div><div class="mindset-label">Co-creating</div><div class="mindset-text">The team learns together — sharing results removes the pressure of going first alone</div></div></div>
-      </div>
+    <div class="blocker-item">
+      <div class="blocker-icon" style="background:#EEF4FD;">😟</div>
+      <div><div class="blocker-label">Priya, HR</div><div class="blocker-text">"I did the 30-minute course. I still don't know how to actually use AI for something I do every day."</div></div>
+    </div>
+    <div class="blocker-item">
+      <div class="blocker-icon" style="background:#E8F8F1;">🤨</div>
+      <div><div class="blocker-label">David, Finance</div><div class="blocker-text">"I'm not resistant. I'm cautious. If someone gave me a risk-aware, simple starting point, I'd try it."</div></div>
+    </div>
+    <div class="blocker-item">
+      <div class="blocker-icon" style="background:#FDF5E3;">😤</div>
+      <div><div class="blocker-label">The real pattern</div><div class="blocker-text">Waiting for certainty. Optimising for not failing. Treating uncertainty as a reason to pause — not experiment.</div></div>
     </div>
   </div>
 
-  <h3 style="margin-bottom:1rem;">The three people we're designing for</h3>
-  <div class="persona-strip">
-    <div class="persona-card">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div class="persona-avatar" style="background:var(--purple-50);color:var(--purple-800);">MA</div>
-        <div><div class="persona-name">Marcus, 41</div><div class="persona-role">Claims Manager · Bangkok</div></div>
-      </div>
-      <div class="persona-quote">"I want to support this. But I need to know where to start. And I need a script for the hard questions my team is asking."</div>
-      <div class="persona-blocker" style="color:var(--coral-600);"><i class="ti ti-alert-circle" style="font-size:13px;vertical-align:-2px;" aria-hidden="true"></i> No safe first action. No script for fear conversations.</div>
-    </div>
-    <div class="persona-card">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div class="persona-avatar" style="background:var(--teal-50);color:var(--teal-600);">PR</div>
-        <div><div class="persona-name">Priya, 29</div><div class="persona-role">CX Analyst · Kuala Lumpur</div></div>
-      </div>
-      <div class="persona-quote">"I'm not lazy. I just need someone to help me see the entry point. Give me one win. Just one."</div>
-      <div class="persona-blocker" style="color:var(--coral-600);"><i class="ti ti-alert-circle" style="font-size:13px;vertical-align:-2px;" aria-hidden="true"></i> 12 tools, no context, no role-relevant starting point.</div>
-    </div>
-    <div class="persona-card">
-      <div style="display:flex;align-items:center;gap:10px;">
-        <div class="persona-avatar" style="background:var(--amber-50);color:var(--amber-600);">DV</div>
-        <div><div class="persona-name">David, 52</div><div class="persona-role">Finance Lead · Shanghai</div></div>
-      </div>
-      <div class="persona-quote">"I'm not resistant. I'm cautious. If someone came with a risk-aware, simple view of where AI helps — I'd listen."</div>
-      <div class="persona-blocker" style="color:var(--coral-600);"><i class="ti ti-alert-circle" style="font-size:13px;vertical-align:-2px;" aria-hidden="true"></i> Ignored by top-down comms. Risks never addressed.</div>
-    </div>
-  </div>
-
-  <div style="margin-top:1.5rem;padding:1.25rem 1.5rem;background:var(--gray-50);border-radius:var(--radius-lg);border:1px solid var(--border);">
-    <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:8px;">Problem statement</div>
-    <p style="font-size:15px;line-height:1.7;color:var(--text-primary);">Nova's employees know AI is coming but aren't moving — because they're waiting for the perfect plan, the guaranteed outcome, and the right moment. <strong>The real blocker isn't the technology. It's a mindset that treats uncertainty as a reason to pause, instead of a signal to run a small experiment.</strong></p>
+  <div class="ps-box">
+    <div class="eyebrow" style="color:#5548D9;margin-bottom:10px;">Problem Statement</div>
+    <p>Nova's employees know AI is coming — but they aren't moving. They're waiting for the perfect plan, the guaranteed outcome, and the right moment. <strong>The real blocker isn't the technology. It's a mindset that treats uncertainty as a reason to pause, instead of a signal to run a small experiment.</strong></p>
   </div>
 </section>
+<hr class="rule">
 
-<hr class="divider" style="margin:0">
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="eyebrow">How It Works</div>
+  <h2>One forum. Four card types. A new habit.</h2>
+  <p class="lead">Every week, each employee posts 20 cards across four colours — 5 of each type — in their department's forum thread. They end the week with a short reflection post. That's it. That's the whole product.</p>
 
-<!-- SOLUTION -->
-<section id="solution">
-  <div class="slide-label">The solution</div>
-  <div class="spark-logo-lg"><i class="ti ti-bolt" style="color:#fff;font-size:28px" aria-hidden="true"></i></div>
-  <h2>Nova Spark — your weekly AI experiment companion</h2>
-  <p class="lead">A lightweight, habit-building tool deployed across all five Nova offices. Employees pick one role-specific AI challenge per week, try it, and share what happened. The tool teaches agile thinking by making you live it — not by explaining it.</p>
-
-  <div class="not-another-tool">
-    <h3><i class="ti ti-alert-triangle" style="color:#EF9F27;font-size:18px;vertical-align:-3px;margin-right:8px" aria-hidden="true"></i>Why this isn't just another tool on the portal</h3>
-    <p>The training portal failed because it gave people knowledge without action. The AI tools failed because nobody connected them to a specific task on a specific Tuesday. Spark's job is to be the bridge — not a destination in itself, but the on-ramp to everything Nova has already built.</p>
-    <div class="principle-list">
-      <div class="principle-item"><div class="principle-dot"></div><div class="principle-text">Every session ends with something the employee actually did — not watched or read</div></div>
-      <div class="principle-item"><div class="principle-dot"></div><div class="principle-text">Challenges are role-specific and time-boxed — no abstract "explore AI" prompts</div></div>
-      <div class="principle-item"><div class="principle-dot"></div><div class="principle-text">Failure is designed in — the "that didn't work" path is as clear as the success path</div></div>
-      <div class="principle-item"><div class="principle-dot"></div><div class="principle-text">Spark retires once the habit is formed — it's not a permanent product, it's a scaffold</div></div>
-      <div class="principle-item"><div class="principle-dot"></div><div class="principle-text">It links out to Nova's existing tools — it never duplicates them</div></div>
-      <div class="principle-item"><div class="principle-dot"></div><div class="principle-text">Management visibility is built in — progress visible without surveillance</div></div>
+  <div class="how-grid">
+    <div class="how-card">
+      <div class="how-num">01</div>
+      <div class="how-title">Join your track</div>
+      <div class="how-desc">Pick your function — Claims, HR, Finance, or CX. Your forum thread is already there with a new topic each week.</div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">02</div>
+      <div class="how-title">Post 20 cards a week</div>
+      <div class="how-desc">5 Fear Cards, 5 Action Cards, 5 Experiment Cards, 5 Learning Cards. Each one is a short post in the forum thread.</div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">03</div>
+      <div class="how-title">Earn points</div>
+      <div class="how-desc">Points vary by card type and format — text, tutorial, or video clip. The more you contribute and the richer the format, the more you earn.</div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">04</div>
+      <div class="how-title">Weekly reflection</div>
+      <div class="how-desc">Week closes with one reflection post. What worked, what didn't, what you're trying next. This unlocks the completion badge.</div>
+    </div>
+    <div class="how-card">
+      <div class="how-num">05</div>
+      <div class="how-title">Build the habit</div>
+      <div class="how-desc">After 10 completed weeks, the habit is formed. Spark steps back. The tools — and the mindset — stay.</div>
     </div>
   </div>
 </section>
+<hr class="rule">
 
-<hr class="divider" style="margin:0">
+<!-- CARD SYSTEM -->
+<section id="cards">
+  <div class="eyebrow">The Card System</div>
+  <h2>Four colours. One complete learning cycle.</h2>
+  <p class="lead">Each colour represents a step in the fear-to-action loop. Every week, employees must complete all four — no skipping straight to experiments without naming the fear first.</p>
 
-<!-- USER JOURNEY -->
-<section id="journey">
-  <div class="slide-label">User journey</div>
-  <h2>How an employee experiences Spark</h2>
-  <p class="lead" style="margin-bottom:1.5rem;">Five stages. Each one solves a specific moment of hesitation. Click each stage to explore the design decisions behind it.</p>
+  <div class="card-type-grid">
+    <div class="card-type card-type-fear ct-fear">
+      <div class="ct-header">
+        <div class="ct-dot" style="background:var(--fear)"></div>
+        <div class="ct-label">Fear Card — Red</div>
+      </div>
+      <div class="ct-title">Name the blocker</div>
+      <div class="ct-desc">What's stopping you from trying AI this week? Name it honestly. Fear cards are never judged — they're the starting point.</div>
+      <ul class="ct-examples">
+        <li>"I'm afraid AI will make an error in a claim and I'll get blamed."</li>
+        <li>"I don't trust the output for anything client-facing."</li>
+        <li>"I don't have time to figure out a new tool right now."</li>
+      </ul>
+    </div>
 
-  <div class="journey-tabs">
-    <button class="jtab active" onclick="setJTab(0)" id="jt0"><span class="jtab-num">1</span> Join & discover</button>
-    <button class="jtab" onclick="setJTab(1)" id="jt1"><span class="jtab-num">2</span> Pick a challenge</button>
-    <button class="jtab" onclick="setJTab(2)" id="jt2"><span class="jtab-num">3</span> Try it this week</button>
-    <button class="jtab" onclick="setJTab(3)" id="jt3"><span class="jtab-num">4</span> Share & reflect</button>
-    <button class="jtab" onclick="setJTab(4)" id="jt4"><span class="jtab-num">5</span> Build habit</button>
+    <div class="card-type card-type-action ct-action">
+      <div class="ct-header">
+        <div class="ct-dot" style="background:var(--action)"></div>
+        <div class="ct-label">Action Card — Blue</div>
+      </div>
+      <div class="ct-title">Respond to the fear</div>
+      <div class="ct-desc">What's one thing you or your manager can do to unblock that fear? Action cards are the bridge from stuck to moving.</div>
+      <ul class="ct-examples">
+        <li>"Let's agree AI drafts only — human reviews before any claim is filed."</li>
+        <li>"Let's run a 10-minute test together, not alone."</li>
+        <li>"I'll do one small task today, not a full workflow change."</li>
+      </ul>
+    </div>
+
+    <div class="card-type card-type-experiment ct-experiment">
+      <div class="ct-header">
+        <div class="ct-dot" style="background:var(--experiment)"></div>
+        <div class="ct-label">Experiment Card — Green</div>
+      </div>
+      <div class="ct-title">Document what you tried</div>
+      <div class="ct-desc">What specific AI task did you actually run this week? Be concrete — tool used, what you asked it to do, how long it took.</div>
+      <ul class="ct-examples">
+        <li>"Used the claims summariser on 3 real notes. Took 4 minutes."</li>
+        <li>"Asked AI to draft a reply to a complaint. Edited before sending."</li>
+        <li>"Generated a weekly report outline. Saved about 20 minutes."</li>
+      </ul>
+    </div>
+
+    <div class="card-type card-type-learning ct-learning">
+      <div class="ct-header">
+        <div class="ct-dot" style="background:var(--learning)"></div>
+        <div class="ct-label">Learning Card — Yellow</div>
+      </div>
+      <div class="ct-title">Capture what you learned</div>
+      <div class="ct-desc">What worked, what didn't, and what you'd do differently. Learning cards are how the whole team gets smarter together.</div>
+      <ul class="ct-examples">
+        <li>"The summary was accurate but missed tone — I'll add tone instructions next time."</li>
+        <li>"Faster than expected. Will use every Monday going forward."</li>
+        <li>"It struggled with our internal jargon. Need to pre-define terms."</li>
+      </ul>
+    </div>
+  </div>
+</section>
+<hr class="rule">
+
+<!-- POINTS & REWARDS -->
+<section id="points">
+  <div class="eyebrow">Points & Rewards</div>
+  <h2>Every contribution earns. Better formats earn more.</h2>
+  <p class="lead">Points are designed to reward both consistency (posting all 20 cards weekly) and quality (richer formats like tutorials and video clips earn more than plain text).</p>
+
+  <div class="pts-intro">
+    <h3 style="margin-bottom:4px;">Points per card post</h3>
+    <p style="font-size:13px;color:var(--ink-3);margin-bottom:.5rem;">Points are earned per individual card posted. Format multipliers apply on top.</p>
+    <table class="pts-table">
+      <thead>
+        <tr>
+          <th>Card Type</th>
+          <th>Format: Text</th>
+          <th>Format: Tutorial</th>
+          <th>Format: Video Clip</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="pts-badge badge-fear">🔴 Fear Card</span></td>
+          <td>5 pts</td>
+          <td>10 pts</td>
+          <td>20 pts</td>
+        </tr>
+        <tr>
+          <td><span class="pts-badge badge-action">🔵 Action Card</span></td>
+          <td>5 pts</td>
+          <td>10 pts</td>
+          <td>20 pts</td>
+        </tr>
+        <tr>
+          <td><span class="pts-badge badge-experiment">🟢 Experiment Card</span></td>
+          <td>10 pts</td>
+          <td>20 pts</td>
+          <td>40 pts</td>
+        </tr>
+        <tr>
+          <td><span class="pts-badge badge-learning">🟡 Learning Card</span></td>
+          <td>10 pts</td>
+          <td>20 pts</td>
+          <td>40 pts</td>
+        </tr>
+        <tr>
+          <td><strong>Weekly Reflection Post</strong></td>
+          <td colspan="3" style="text-align:right;color:var(--spark);font-family:var(--display);font-size:14px;">+50 pts (unlocks week completion badge)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="weekly-box" style="margin-top:1.25rem;">
+      <div class="wbox">
+        <div class="wbox-label">Minimum weekly (all text)</div>
+        <div class="wbox-val">350 pts</div>
+        <div class="wbox-sub">20 cards × avg 7.5pts + 50pt reflection</div>
+      </div>
+      <div class="wbox">
+        <div class="wbox-label">Maximum weekly (all video)</div>
+        <div class="wbox-val">1,250 pts</div>
+        <div class="wbox-sub">20 cards × avg 30pts + 50pt reflection</div>
+      </div>
+      <div class="wbox">
+        <div class="wbox-label">Completion condition</div>
+        <div class="wbox-val" style="font-size:15px;padding-top:4px;">All 20 cards posted + weekly reflection</div>
+        <div class="wbox-sub">Both required to mark the week complete</div>
+      </div>
+      <div class="wbox">
+        <div class="wbox-label">Habit formed at</div>
+        <div class="wbox-val">10 weeks</div>
+        <div class="wbox-sub">Approx 12–14 weeks with buffer</div>
+      </div>
+    </div>
   </div>
 
-  <div id="journey-panels"></div>
+  <div style="margin-top:1.5rem;">
+    <h3 style="margin-bottom:4px;">Reward tiers</h3>
+    <p style="font-size:13px;color:var(--ink-3);margin-bottom:0;">Tiers are cumulative across the programme. Recognition is public in the forum.</p>
+  </div>
+  <div class="reward-tiers">
+    <div class="rtier">
+      <div class="rtier-icon">🌱</div>
+      <div class="rtier-name">Spark Starter</div>
+      <div class="rtier-pts">500 pts</div>
+      <div class="rtier-perk">Forum badge. First week complete. Name listed in team feed.</div>
+    </div>
+    <div class="rtier">
+      <div class="rtier-icon">⚡</div>
+      <div class="rtier-name">Experimenter</div>
+      <div class="rtier-pts">2,500 pts</div>
+      <div class="rtier-perk">4-week streak. Priority feature in monthly manager report.</div>
+    </div>
+    <div class="rtier">
+      <div class="rtier-icon">🔥</div>
+      <div class="rtier-name">Habit Builder</div>
+      <div class="rtier-pts">7,000 pts</div>
+      <div class="rtier-perk">8-week streak. Story shared at CEO quarterly town hall.</div>
+    </div>
+    <div class="rtier">
+      <div class="rtier-icon">🏆</div>
+      <div class="rtier-name">Spark Champion</div>
+      <div class="rtier-pts">12,000 pts</div>
+      <div class="rtier-perk">Programme complete. Certified AI Champion. Mentors next cohort.</div>
+    </div>
+  </div>
 </section>
+<hr class="rule">
 
-<hr class="divider" style="margin:0">
+<!-- FORUM MOCKUP -->
+<section id="forum">
+  <div class="eyebrow">Forum Experience</div>
+  <h2>What an employee sees each week</h2>
+  <p class="lead">Spark lives in a familiar forum format — no new login, integrated with Nova's existing intranet via SSO. Each function has its own weekly thread. Posts are short and specific, not essays.</p>
 
-<!-- CHALLENGES & HABIT -->
-<section id="challenges">
-  <div class="slide-label">Challenges & habit formation</div>
-  <h2>How many challenges to build a habit?</h2>
-  <p class="lead" style="margin-bottom:1.5rem;">Based on habit formation research (66 days average), Spark targets <strong>10 challenges over 12 weeks</strong> per employee — roughly one per week with buffer. The path is personalised by job function. Select a function to see the challenge track.</p>
+  <div class="forum-wrap">
+    <div class="forum-header">
+      <div class="forum-header-left">
+        <svg viewBox="0 0 24 24" style="width:18px;height:18px;fill:#fff"><path d="M13 2L4.09 12.97H11L10 22l8.91-10.97H13L13 2z"/></svg>
+        <span>Nova Spark — Claims Track · Week 6</span>
+      </div>
+      <div class="forum-week-badge">Bangkok Office</div>
+    </div>
 
-  <div class="fn-tabs" id="fn-tabs"></div>
-  <div id="fn-panels"></div>
+    <div class="forum-body">
+      <div class="forum-sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-label">Your week 6 progress</div>
+          <div class="progress-track">
+            <div>
+              <div class="pt-row">
+                <div class="pt-dot" style="background:var(--fear)"></div>
+                <div class="pt-label">Fear Cards</div>
+                <div class="pt-count">5/5</div>
+              </div>
+              <div class="pt-bar-wrap"><div class="pt-bar-fill" style="width:100%;background:var(--fear)"></div></div>
+            </div>
+            <div>
+              <div class="pt-row">
+                <div class="pt-dot" style="background:var(--action)"></div>
+                <div class="pt-label">Action Cards</div>
+                <div class="pt-count">5/5</div>
+              </div>
+              <div class="pt-bar-wrap"><div class="pt-bar-fill" style="width:100%;background:var(--action)"></div></div>
+            </div>
+            <div>
+              <div class="pt-row">
+                <div class="pt-dot" style="background:var(--experiment)"></div>
+                <div class="pt-label">Experiment Cards</div>
+                <div class="pt-count">3/5</div>
+              </div>
+              <div class="pt-bar-wrap"><div class="pt-bar-fill" style="width:60%;background:var(--experiment)"></div></div>
+            </div>
+            <div>
+              <div class="pt-row">
+                <div class="pt-dot" style="background:var(--learning)"></div>
+                <div class="pt-label">Learning Cards</div>
+                <div class="pt-count">2/5</div>
+              </div>
+              <div class="pt-bar-wrap"><div class="pt-bar-fill" style="width:40%;background:var(--learning)"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Your points</div>
+          <div class="pts-display">
+            <div class="pts-display-num">4,820</div>
+            <div class="pts-display-lbl">total points</div>
+            <div class="pts-display-tier">🔥 Habit Builder — next tier at 7,000</div>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-label">Weeks completed</div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;">
+            <span style="width:24px;height:24px;border-radius:50%;background:var(--spark);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;">1</span>
+            <span style="width:24px;height:24px;border-radius:50%;background:var(--spark);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;">2</span>
+            <span style="width:24px;height:24px;border-radius:50%;background:var(--spark);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;">3</span>
+            <span style="width:24px;height:24px;border-radius:50%;background:var(--spark);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;">4</span>
+            <span style="width:24px;height:24px;border-radius:50%;background:var(--spark);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;">5</span>
+            <span style="width:24px;height:24px;border-radius:50%;background:var(--experiment-bg);color:var(--experiment);border:1px solid var(--experiment-border);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;">6</span>
+            <span style="width:24px;height:24px;border-radius:50%;background:var(--rule);color:var(--ink-3);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;">7</span>
+            <span style="width:24px;height:24px;border-radius:50%;background:var(--rule);color:var(--ink-3);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;">8</span>
+            <span style="width:24px;height:24px;border-radius:50%;background:var(--rule);color:var(--ink-3);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;">9</span>
+            <span style="width:24px;height:24px;border-radius:50%;background:var(--rule);color:var(--ink-3);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;">10</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="forum-feed">
+        <div class="forum-tabs">
+          <span class="ftab active-all">All posts</span>
+          <span class="ftab">🔴 Fear</span>
+          <span class="ftab">🔵 Action</span>
+          <span class="ftab">🟢 Experiment</span>
+          <span class="ftab">🟡 Learning</span>
+        </div>
+
+        <div class="post post-experiment">
+          <div class="post-meta">
+            <div class="post-avatar" style="background:#1DAF72;">AP</div>
+            <div><div class="post-author">Apisit P.</div><div class="post-role">Claims Officer, Bangkok</div></div>
+            <span class="post-type-badge badge-experiment">🟢 Experiment</span>
+          </div>
+          <div class="post-text">Used the claims note summariser on 5 real cases today. Average time dropped from 12 min to 4 min per note. One had a factual error I caught on review — which is exactly why human review is still in the process.</div>
+          <div class="post-footer">
+            <span class="post-pts">+20 pts (tutorial)</span>
+            <span class="post-react">👍 8 · 💬 3 replies</span>
+          </div>
+        </div>
+
+        <div class="post post-fear">
+          <div class="post-meta">
+            <div class="post-avatar" style="background:#E8473F;">NW</div>
+            <div><div class="post-author">Nattawan W.</div><div class="post-role">Senior Claims Analyst</div></div>
+            <span class="post-type-badge badge-fear">🔴 Fear</span>
+          </div>
+          <div class="post-text">Still worried about liability if AI misses something in a complex claim. The tool doesn't know our SLA rules. What if it summarises incorrectly and the error isn't caught until after sign-off?</div>
+          <div class="post-footer">
+            <span class="post-pts">+5 pts (text)</span>
+            <span class="post-react">👍 14 · 💬 6 replies</span>
+          </div>
+        </div>
+
+        <div class="post post-action">
+          <div class="post-meta">
+            <div class="post-avatar" style="background:#3B7DD8;">MK</div>
+            <div><div class="post-author">Marcus K.</div><div class="post-role">Claims Manager</div></div>
+            <span class="post-type-badge badge-action">🔵 Action</span>
+          </div>
+          <div class="post-text">In response to Nattawan's fear above — good one, and completely valid. Team agreement: AI output is always reviewed against the SLA checklist before any claim is marked final. Draft only. I'll model this myself this week.</div>
+          <div class="post-footer">
+            <span class="post-pts">+10 pts (tutorial)</span>
+            <span class="post-react">👍 22 · 💬 2 replies</span>
+          </div>
+        </div>
+
+        <div class="post post-learning">
+          <div class="post-meta">
+            <div class="post-avatar" style="background:#D4900A;">SR</div>
+            <div><div class="post-author">Siriporn R.</div><div class="post-role">Claims Officer</div></div>
+            <span class="post-type-badge badge-learning">🟡 Learning</span>
+          </div>
+          <div class="post-text">Week 5 reflection: the prompt matters more than I thought. When I gave AI the claim category upfront, accuracy improved a lot. Adding "this is a motor claim, SLA = 5 days" at the start helped. Sharing my prompt template below.</div>
+          <div class="post-footer">
+            <span class="post-pts">+40 pts (video clip)</span>
+            <span class="post-react">👍 31 · 💬 9 replies</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
+<hr class="rule">
 
-<hr class="divider" style="margin:0">
+<!-- WEEKLY TRACKS -->
+<section id="tracks">
+  <div class="eyebrow">Weekly Challenge Tracks</div>
+  <h2>Role-specific. Concrete. Time-boxed.</h2>
+  <p class="lead">Each function has its own 10-week challenge track. Topics escalate in confidence level — starting with low-stakes solo experiments and building toward team-level workflow changes.</p>
+
+  <div class="track-tabs" id="track-tabs"></div>
+  <div id="track-panel"></div>
+</section>
+<hr class="rule">
+
+<!-- COMPLETION FLOW -->
+<section id="completion">
+  <div class="eyebrow">Week Completion Flow</div>
+  <h2>How a week closes</h2>
+  <p class="lead">A week is only marked complete when both requirements are met. Partial weeks don't count toward habit formation — but they still earn points.</p>
+
+  <div class="flow-steps">
+    <div class="flow-card" style="background:var(--white);border:1px solid var(--rule);border-radius:var(--r-lg);padding:1.25rem 1.4rem;position:relative;">
+      <div class="flow-step-n" style="font-family:var(--display);font-size:32px;font-weight:800;color:var(--rule);line-height:1;margin-bottom:.4rem;">01</div>
+      <div class="flow-step-title" style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px;">Post 5 Fear Cards</div>
+      <div class="flow-step-desc" style="font-size:12px;color:var(--ink-3);line-height:1.55;">Name your blockers for the week. Text, tutorial, or clip.</div>
+    </div>
+    <div class="flow-card" style="background:var(--white);border:1px solid var(--rule);border-radius:var(--r-lg);padding:1.25rem 1.4rem;">
+      <div class="flow-step-n" style="font-family:var(--display);font-size:32px;font-weight:800;color:var(--rule);line-height:1;margin-bottom:.4rem;">02</div>
+      <div class="flow-step-title" style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px;">Post 5 Action Cards</div>
+      <div class="flow-step-desc" style="font-size:12px;color:var(--ink-3);line-height:1.55;">Respond to each fear with a concrete unblocking move.</div>
+    </div>
+    <div class="flow-card" style="background:var(--white);border:1px solid var(--rule);border-radius:var(--r-lg);padding:1.25rem 1.4rem;">
+      <div class="flow-step-n" style="font-family:var(--display);font-size:32px;font-weight:800;color:var(--rule);line-height:1;margin-bottom:.4rem;">03</div>
+      <div class="flow-step-title" style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px;">Post 5 Experiment Cards</div>
+      <div class="flow-step-desc" style="font-size:12px;color:var(--ink-3);line-height:1.55;">Document what you actually tried. Concrete tool, task, time.</div>
+    </div>
+    <div class="flow-card" style="background:var(--white);border:1px solid var(--rule);border-radius:var(--r-lg);padding:1.25rem 1.4rem;">
+      <div class="flow-step-n" style="font-family:var(--display);font-size:32px;font-weight:800;color:var(--rule);line-height:1;margin-bottom:.4rem;">04</div>
+      <div class="flow-step-title" style="font-size:13px;font-weight:600;color:var(--ink);margin-bottom:4px;">Post 5 Learning Cards</div>
+      <div class="flow-step-desc" style="font-size:12px;color:var(--ink-3);line-height:1.55;">What worked, what didn't, what you'd do differently.</div>
+    </div>
+    <div class="flow-card" style="background:var(--spark-light);border:1px solid #C5C0F5;border-radius:var(--r-lg);padding:1.25rem 1.4rem;">
+      <div class="flow-step-n" style="font-family:var(--display);font-size:32px;font-weight:800;color:#C5C0F5;line-height:1;margin-bottom:.4rem;">05</div>
+      <div class="flow-step-title" style="font-size:13px;font-weight:600;color:var(--spark);margin-bottom:4px;">Weekly Reflection Post ✓</div>
+      <div class="flow-step-desc" style="font-size:12px;color:var(--spark);opacity:.8;line-height:1.55;">One summary post. What changed this week? Week marked complete. +50 pts.</div>
+    </div>
+  </div>
+</section>
+<hr class="rule">
+
+<!-- MANAGEMENT -->
+<section id="management">
+  <div class="eyebrow">Management View</div>
+  <h2>Visibility without surveillance</h2>
+  <p class="lead">Three dashboard levels — team, department, executive. All show group-level momentum. Individual compliance tracking is deliberately excluded. Managers see who needs a nudge, not a report card.</p>
+
+  <div class="mgmt-tabs">
+    <button class="mtab active" onclick="setMTab(0)">Team Manager</button>
+    <button class="mtab" onclick="setMTab(1)">Department Head</button>
+    <button class="mtab" onclick="setMTab(2)">CEO / Executive</button>
+  </div>
+  <div id="mgmt-panel"></div>
+</section>
+<hr class="rule">
 
 <!-- TIMELINE -->
 <section id="timeline">
-  <div class="slide-label">Implementation timeline</div>
-  <h2>18-month rollout across Nova</h2>
-  <p class="lead" style="margin-bottom:1.5rem;">Three phases. Each builds on the last. Phase 1 proves the concept with willing adopters before pushing company-wide.</p>
-  <div class="timeline-phases">
-    <div class="tphase" style="border-top:3px solid var(--purple-600);">
-      <div class="tphase-header">
-        <div class="tphase-num" style="background:var(--purple-50);color:var(--purple-800);">1</div>
-        <div class="tphase-title">Seed</div>
+  <div class="eyebrow">Implementation Timeline</div>
+  <h2>18-month rollout. Three phases.</h2>
+  <p class="lead">Phase 1 proves the concept with willing adopters before pushing company-wide. Each phase builds on evidence, not faith.</p>
+
+  <div class="phase-grid">
+    <div class="phase-card" style="border-top:3px solid var(--spark);">
+      <div class="phase-hd">
+        <div class="phase-num" style="background:var(--spark-light);color:var(--spark);">1</div>
+        <div class="phase-title" style="color:var(--spark);">Seed</div>
       </div>
-      <div class="tphase-duration"><i class="ti ti-calendar" style="font-size:13px;vertical-align:-2px;" aria-hidden="true"></i> Months 1–3 · ~200 early adopters</div>
-      <ul class="tphase-items">
-        <li>Launch Spark to AI Champions + volunteer teams in Bangkok and KL</li>
-        <li>Build and validate challenge library for Claims, CX, and Finance functions</li>
+      <div class="phase-dur">Months 1–3 · ~200 early adopters</div>
+      <ul class="phase-items">
+        <li>Launch to AI Champions + volunteer teams in Bangkok and KL</li>
+        <li>Validate card tracks for Claims, CX, and Finance</li>
         <li>Test manager dashboard with 5 team leads</li>
-        <li>Collect qualitative data: what's working, what's not</li>
-        <li>Identify 10 "first win" stories to socialise in Phase 2</li>
+        <li>Collect qualitative data on what's working</li>
+        <li>Identify 10 first-win stories for Phase 2 comms</li>
       </ul>
     </div>
-    <div class="tphase" style="border-top:3px solid var(--teal-600);">
-      <div class="tphase-header">
-        <div class="tphase-num" style="background:var(--teal-50);color:var(--teal-600);">2</div>
-        <div class="tphase-title">Scale</div>
+    <div class="phase-card" style="border-top:3px solid var(--experiment);">
+      <div class="phase-hd">
+        <div class="phase-num" style="background:var(--experiment-bg);color:var(--experiment);">2</div>
+        <div class="phase-title" style="color:var(--experiment);">Scale</div>
       </div>
-      <div class="tphase-duration"><i class="ti ti-calendar" style="font-size:13px;vertical-align:-2px;" aria-hidden="true"></i> Months 4–9 · all 5 offices</div>
-      <ul class="tphase-items">
+      <div class="phase-dur">Months 4–9 · all 5 offices</div>
+      <ul class="phase-items">
         <li>Full rollout across Bangkok, KL, Jakarta, Phnom Penh, Shanghai</li>
-        <li>Expand challenge library to HR, Underwriting, Technology functions</li>
-        <li>Launch team leaderboard and cross-office community feed</li>
-        <li>Integrate Spark login with Nova SSO (no new accounts)</li>
-        <li>First monthly management report issued to department heads</li>
-        <li>CEO town hall features 3 Spark stories from different countries</li>
+        <li>Expand tracks to HR and Underwriting</li>
+        <li>Launch cross-office leaderboard and community feed</li>
+        <li>Integrate forum login with Nova SSO</li>
+        <li>First monthly management report to department heads</li>
       </ul>
     </div>
-    <div class="tphase" style="border-top:3px solid var(--amber-400);">
-      <div class="tphase-header">
-        <div class="tphase-num" style="background:var(--amber-50);color:var(--amber-600);">3</div>
-        <div class="tphase-title">Embed</div>
+    <div class="phase-card" style="border-top:3px solid var(--learning);">
+      <div class="phase-hd">
+        <div class="phase-num" style="background:var(--learning-bg);color:var(--learning);">3</div>
+        <div class="phase-title" style="color:var(--learning);">Embed & Retire</div>
       </div>
-      <div class="tphase-duration"><i class="ti ti-calendar" style="font-size:13px;vertical-align:-2px;" aria-hidden="true"></i> Months 10–18 · retire the scaffold</div>
-      <ul class="tphase-items">
-        <li>Spark habit data feeds into performance review conversations (optional)</li>
-        <li>Deep integration: Spark challenges linked directly to Nova tool portal</li>
-        <li>Agentic AI teams self-nominate based on Spark completion milestones</li>
-        <li>Spark challenge library maintained by AI Champions, not central IT</li>
-        <li>Evaluate sunset: if habit formed, Spark steps back — tools take over</li>
+      <div class="phase-dur">Months 10–18 · retire the scaffold</div>
+      <ul class="phase-items">
+        <li>Spark Champions mentor new joiners directly — no more guided tracks</li>
+        <li>Forum evolves into peer-led AI community, not structured challenge</li>
+        <li>Management dashboards handed to HR as ongoing metric</li>
+        <li>Spark's structured card system formally decommissioned</li>
+        <li>The habit remains. The scaffold leaves.</li>
       </ul>
     </div>
   </div>
 </section>
+<hr class="rule">
 
-<hr class="divider" style="margin:0">
+<!-- RETIRE -->
+<section id="retire">
+  <div class="retire-box">
+    <div class="eyebrow">The Principle That Matters</div>
+    <h2>Most tools are designed to maximise engagement.<br>Spark is designed to make itself unnecessary.</h2>
+    <p class="lead">Every other tool in Nova's transformation stack exists permanently. Spark's job is to get those tools used — then step back.</p>
 
-<!-- MANAGEMENT VIEW -->
-<section id="management">
-  <div class="slide-label">Management visibility</div>
-  <h2>What leadership can see — and when</h2>
-  <p class="lead" style="margin-bottom:1.5rem;">Progress is visible without being surveillance. Managers see team momentum, not individual compliance. Select a view level below.</p>
-
-  <div class="mgmt-tabs">
-    <button class="mtab active" onclick="setMTab(0)" id="mt0">Team manager view</button>
-    <button class="mtab" onclick="setMTab(1)" id="mt1">Department head view</button>
-    <button class="mtab" onclick="setMTab(2)" id="mt2">Executive / CEO view</button>
-  </div>
-  <div id="mgmt-panels"></div>
-</section>
-
-<hr class="divider" style="margin:0">
-
-<!-- ARCHITECTURE -->
-<section id="architecture">
-  <div class="slide-label">Digital architecture & roadmap</div>
-  <h2>Where Spark sits in Nova's digital ecosystem</h2>
-  <p class="lead" style="margin-bottom:1.5rem;">Spark is not a standalone island. It's the behaviour layer that activates tools Nova already owns. Phase by phase, it gets wired deeper into the existing architecture.</p>
-
-  <div class="arch-wrap">
-    <div class="arch-layer">
-      <div class="arch-layer-label">Employee experience layer</div>
-      <div class="arch-nodes">
-        <div class="arch-node arch-node-spark"><i class="ti ti-bolt" aria-hidden="true"></i> Nova Spark (new)</div>
-        <div class="arch-node arch-node-existing"><i class="ti ti-book" aria-hidden="true"></i> Training Portal</div>
-        <div class="arch-node arch-node-existing"><i class="ti ti-tool" aria-hidden="true"></i> AI Tool Library</div>
-        <div class="arch-node arch-node-existing"><i class="ti ti-users" aria-hidden="true"></i> AI Champions Network</div>
-      </div>
+    <div class="retire-rule">
+      <div class="rr-dot"></div>
+      <div class="rr-text"><strong>It's an on-ramp, not a destination.</strong> Once the habit of running weekly AI experiments is formed — roughly 10 completed weeks — the structured challenge system retires. The forum stays as a peer community. The cards go away.</div>
     </div>
-    <div class="arch-connector">↕</div>
-    <div class="arch-layer">
-      <div class="arch-layer-label">Identity & access</div>
-      <div class="arch-nodes">
-        <div class="arch-node arch-node-existing"><i class="ti ti-lock" aria-hidden="true"></i> Nova SSO (Phase 2 integration)</div>
-        <div class="arch-node arch-node-existing"><i class="ti ti-id" aria-hidden="true"></i> HRIS — role & function data</div>
-      </div>
+    <div class="retire-rule">
+      <div class="rr-dot"></div>
+      <div class="rr-text"><strong>The measure of success is when people stop needing Spark.</strong> If employees are still posting cards in year two because Spark is the only place AI happens at Nova, it failed. Success looks like AI showing up in Monday stand-ups, not forum threads.</div>
     </div>
-    <div class="arch-connector">↕</div>
-    <div class="arch-layer">
-      <div class="arch-layer-label">AI & automation tools (existing)</div>
-      <div class="arch-nodes">
-        <div class="arch-node arch-node-existing"><i class="ti ti-pencil" aria-hidden="true"></i> Writing Assistant</div>
-        <div class="arch-node arch-node-existing"><i class="ti ti-file-check" aria-hidden="true"></i> Claims Automation</div>
-        <div class="arch-node arch-node-existing"><i class="ti ti-chart-bar" aria-hidden="true"></i> Data Summarisation</div>
-        <div class="arch-node arch-node-existing"><i class="ti ti-headset" aria-hidden="true"></i> CX AI Co-pilot</div>
-      </div>
-    </div>
-    <div class="arch-connector">↕</div>
-    <div class="arch-layer">
-      <div class="arch-layer-label">Analytics & reporting (new in Phase 2)</div>
-      <div class="arch-nodes">
-        <div class="arch-node arch-node-new"><i class="ti ti-dashboard" aria-hidden="true"></i> Manager Dashboard</div>
-        <div class="arch-node arch-node-new"><i class="ti ti-chart-line" aria-hidden="true"></i> Adoption Analytics</div>
-        <div class="arch-node arch-node-new"><i class="ti ti-certificate" aria-hidden="true"></i> Habit Milestone Tracker</div>
-      </div>
-    </div>
-    <div class="arch-layer" style="margin-top:1.25rem;">
-      <div class="arch-layer-label">Future state — Phase 3</div>
-      <div class="arch-nodes">
-        <div class="arch-node arch-node-new"><i class="ti ti-robot" aria-hidden="true"></i> Agentic AI Team Eligibility</div>
-        <div class="arch-node arch-node-new"><i class="ti ti-refresh" aria-hidden="true"></i> Spark Challenge API (Champions-maintained)</div>
-        <div class="arch-node arch-node-new"><i class="ti ti-trending-up" aria-hidden="true"></i> Performance Integration (optional)</div>
-      </div>
-    </div>
-    <div class="arch-legend">
-      <div class="arch-legend-item"><div class="arch-legend-dot" style="background:var(--purple-600);"></div> Nova Spark (core product)</div>
-      <div class="arch-legend-item"><div class="arch-legend-dot" style="background:#444441;"></div> Existing Nova infrastructure</div>
-      <div class="arch-legend-item"><div class="arch-legend-dot" style="background:#085041;"></div> New components built for Spark</div>
-    </div>
-  </div>
-
-  <div class="roadmap-phases">
-    <div class="roadmap-card">
-      <div class="roadmap-phase-tag" style="color:var(--purple-600);">Phase 1 · Months 1–3</div>
-      <div class="roadmap-title">Standalone Spark</div>
-      <div class="roadmap-desc">Spark runs as a separate web app. Manual role setup. No SSO. Challenges are a curated static library. Manager dashboard is a simple weekly email report.</div>
-      <ul class="roadmap-items">
-        <li><i class="ti ti-check" style="color:var(--teal-600);" aria-hidden="true"></i> Web app (mobile-responsive)</li>
-        <li><i class="ti ti-check" style="color:var(--teal-600);" aria-hidden="true"></i> 30 challenges across 3 functions</li>
-        <li><i class="ti ti-check" style="color:var(--teal-600);" aria-hidden="true"></i> Weekly email digest to managers</li>
-      </ul>
-    </div>
-    <div class="roadmap-card">
-      <div class="roadmap-phase-tag" style="color:var(--teal-600);">Phase 2 · Months 4–9</div>
-      <div class="roadmap-title">Connected Spark</div>
-      <div class="roadmap-desc">SSO integration removes friction. Challenges link directly to Nova's tool portal. Real-time dashboard replaces email. Cross-office feed goes live.</div>
-      <ul class="roadmap-items">
-        <li><i class="ti ti-check" style="color:var(--teal-600);" aria-hidden="true"></i> SSO login via Nova identity</li>
-        <li><i class="ti ti-check" style="color:var(--teal-600);" aria-hidden="true"></i> 70+ challenges across 6 functions</li>
-        <li><i class="ti ti-check" style="color:var(--teal-600);" aria-hidden="true"></i> Live manager + dept head dashboard</li>
-        <li><i class="ti ti-check" style="color:var(--teal-600);" aria-hidden="true"></i> Direct links to AI tool portal</li>
-      </ul>
-    </div>
-    <div class="roadmap-card">
-      <div class="roadmap-phase-tag" style="color:var(--amber-600);">Phase 3 · Months 10–18</div>
-      <div class="roadmap-title">Embedded Spark</div>
-      <div class="roadmap-desc">Spark habit data informs agentic AI team selection. Champions maintain the challenge library via API. Spark begins stepping back as tools take over.</div>
-      <ul class="roadmap-items">
-        <li><i class="ti ti-check" style="color:var(--teal-600);" aria-hidden="true"></i> Agentic team eligibility via milestones</li>
-        <li><i class="ti ti-check" style="color:var(--teal-600);" aria-hidden="true"></i> Champion-editable challenge API</li>
-        <li><i class="ti ti-check" style="color:var(--teal-600);" aria-hidden="true"></i> Sunset evaluation at month 18</li>
-      </ul>
+    <div class="retire-rule">
+      <div class="rr-dot"></div>
+      <div class="rr-text"><strong>This is what separates it from every other tool pitch.</strong> Nobody in a procurement meeting says "and here's how our product exits gracefully when it's no longer needed." Spark does. That's the design philosophy, and it's the one thing worth protecting in any presentation of this work.</div>
     </div>
   </div>
 </section>
 
 <footer>
-  <strong>Nova Spark</strong> · Agile Thinking in Digital Transformation · Nova Insurance Group · 2026
+  <strong>Nova Spark</strong> — AI Experiment Forum for Nova Insurance Group · Designed as a scaffold, not a destination.
 </footer>
 
 <script>
-const journeyStages = [
-  { title: "Stage 1 — Join & discover", tag: "tag-p", tagText: "Onboarding",
-    objective: "Employee lands on Nova Spark for the first time — triggered by a manager nudge, a team announcement, or a company push notification.",
-    needs: "Understand what this is, why it exists, and that it won't waste their time or judge them for being a beginner.",
-    feeling: "Cautious but curious. Slightly suspicious of another initiative.",
-    barrier: "\"Is this another mandatory thing that goes nowhere?\" Low trust from past initiative fatigue.",
-    features: [
-      {i:"ti-user-circle",t:"30-second role setup — pick your function to personalise your experience immediately"},
-      {i:"ti-mood-smile",t:"Comfort check-in — 'AI newbie', 'Heard of it', 'Already using it' sets your starting challenge level"},
-      {i:"ti-eye",t:"Show 3 real wins from colleagues in your role — names, tasks, time saved"},
-      {i:"ti-lock-open",t:"Explore for 10 minutes before committing — no account required to browse"}
-    ]
-  },
-  { title: "Stage 2 — Pick a challenge", tag: "tag-t", tagText: "Role-filtered",
-    objective: "Employee selects one specific AI experiment to run this week, matched to their actual role and current comfort level.",
-    needs: "A concrete, role-relevant starting point. Not 12 tools — one clear thing to do on Tuesday afternoon.",
-    feeling: "Relieved to have a clear next step. Slightly nervous about getting it wrong.",
-    barrier: "Choice paralysis. Too many options means no action. Generic examples create disconnect.",
-    features: [
-      {i:"ti-filter",t:"Role-filtered challenge cards — Marcus sees Claims tasks, Priya sees CX tasks, David sees Finance tasks"},
-      {i:"ti-clock",t:"Time estimate on every card — '15 min', '30 min', 'Under 5 min'"},
-      {i:"ti-chart-bar",t:"Difficulty tier — Curious / Ready / Bold so people self-select comfort level"},
-      {i:"ti-users",t:"'X teammates tried this' counter — social proof nudges the hesitant"},
-      {i:"ti-bookmark",t:"Save for later — no pressure to commit to a challenge immediately"}
-    ]
-  },
-  { title: "Stage 3 — Try it this week", tag: "tag-a", tagText: "Guided action",
-    objective: "Employee runs the experiment. Spark walks them through a real AI task using their actual work content, step by step.",
-    needs: "Clear instructions connecting the AI tool to a task they already do. Permission to produce an imperfect result.",
-    feeling: "Focused. Possibly frustrated mid-task — but Spark helps them through it rather than leaving them stuck.",
-    barrier: "\"It gave a bad answer — this doesn't work.\" Misreading one failure as proof the tool is useless.",
-    features: [
-      {i:"ti-list-check",t:"Step-by-step guided walkthrough — interactive, not a passive video"},
-      {i:"ti-bulb",t:"Prompt starter included — paste your real content and try this exact prompt"},
-      {i:"ti-refresh",t:"'That didn't work' button — normalises failure, gives a specific retry tip"},
-      {i:"ti-help-circle",t:"In-app AI Champion contact — ping your team's champion without leaving Spark"},
-      {i:"ti-clock-pause",t:"Pause and resume — save progress, come back tomorrow"}
-    ]
-  },
-  { title: "Stage 4 — Share & reflect", tag: "tag-c", tagText: "Psychological safety",
-    objective: "Employee logs what happened — what worked, what didn't — and optionally shares with their team or the Nova community.",
-    needs: "A quick, low-effort reflection. Recognition that doesn't feel hollow. Safe to say 'it didn't work'.",
-    feeling: "Proud if it worked. Curious if it didn't. Either way, ready to say something.",
-    barrier: "Sharing culture is low. People don't want to look incompetent in front of colleagues or management.",
-    features: [
-      {i:"ti-pencil",t:"3-question micro-reflection — 'What I tried', 'What happened', 'Would I use it again?'"},
-      {i:"ti-thumb-up",t:"Post to team feed or keep private — employee controls visibility, always"},
-      {i:"ti-star",t:"Spark points earned — redeemable for small perks (coffee, team lunch, half-day)"},
-      {i:"ti-award",t:"'First experiment done' badge — lowest bar, highest meaning for hesitant first-timers"},
-      {i:"ti-chart-line",t:"Manager dashboard update — team completion shown without naming who hasn't started"}
-    ]
-  },
-  { title: "Stage 5 — Build the habit", tag: "tag-t", tagText: "Habit loop",
-    objective: "Employee returns next week. The habit loop forms: new challenge, try, share. Mindset shifts from 'what's the plan?' to 'what can I test?'",
-    needs: "A reason to return that isn't obligation. Progress that feels real. Team momentum they can see.",
-    feeling: "A little competitive in a good way. Growing confidence. Starting to see AI as a tool, not a threat.",
-    barrier: "Without a pull, people drift. The tool has to create genuine curiosity, not just reward completion.",
-    features: [
-      {i:"ti-bell",t:"Personalised weekly nudge — 'Priya, your team ran 4 experiments this week. Your turn?'"},
-      {i:"ti-trending-up",t:"Personal AI map — a visual log of every experiment completed, built over time"},
-      {i:"ti-users-group",t:"Team leaderboard (opt-in) — tracks experiments run, not hours spent or scores"},
-      {i:"ti-building",t:"Cross-office feed — see what Bangkok or Jakarta teams are trying right now"},
-      {i:"ti-certificate",t:"Monthly 'Sparker' recognition — manager nominates, CEO mentions in town hall"}
-    ]
-  }
-];
-
-function setJTab(i) {
-  for (let j=0;j<5;j++) {
-    const b = document.getElementById('jt'+j);
-    b.className = 'jtab' + (j===i?' active':'');
-  }
-  const s = journeyStages[i];
-  const colors = [{bg:'#EEEDFE',ic:'#534AB7'},{bg:'#E1F5EE',ic:'#0F6E56'},{bg:'#FAEEDA',ic:'#854F0B'},{bg:'#FAECE7',ic:'#993C1D'},{bg:'#E1F5EE',ic:'#0F6E56'}];
-  const c = colors[i];
-  document.getElementById('journey-panels').innerHTML = `
-    <div class="card" style="border-top:3px solid ${c.ic};">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;">
-        <div class="icon-circle" style="background:${c.bg};"><i class="ti ti-bolt" style="color:${c.ic};font-size:18px" aria-hidden="true"></i></div>
-        <div><h3 style="margin:0;">${s.title}</h3><span class="tag ${s.tag}">${s.tagText}</span></div>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:1.25rem;">
-        <div>
-          <div class="jrow-label">Objective</div>
-          <div class="jrow-text">${s.objective}</div>
-        </div>
-        <div>
-          <div class="jrow-label">Employee need</div>
-          <div class="jrow-text">${s.needs}</div>
-        </div>
-        <div>
-          <div class="jrow-label">Feeling at this stage</div>
-          <div class="jrow-text" style="color:var(--teal-600);">${s.feeling}</div>
-        </div>
-        <div>
-          <div class="jrow-label">Barrier to overcome</div>
-          <div class="jrow-text" style="color:var(--coral-600);">${s.barrier}</div>
-        </div>
-      </div>
-      <div class="jrow-label" style="margin-bottom:8px;">Spark features at this stage</div>
-      <div class="feature-chips">
-        ${s.features.map(f=>`<div class="feature-chip"><i class="ti ${f.i}" aria-hidden="true"></i><span>${f.t}</span></div>`).join('')}
-      </div>
-    </div>`;
-}
-
-const fnData = {
-  "Claims": {
-    color: "var(--purple-600)", bg: "var(--purple-50)", weeks: 12, total: 10,
-    tracks: [
-      {wk:"Week 1–2",phase:"Curious",col:"#AFA9EC",name:"AI-assisted claim summary",desc:"Paste a complex claim note into the writing assistant. Compare its summary to yours. Time saved?"},
-      {wk:"Week 3–4",phase:"Curious",col:"#AFA9EC",name:"Auto-draft first response",desc:"Use the claims co-pilot to draft a claimant response email. Edit it. How close was it?"},
-      {wk:"Week 5–6",phase:"Ready",col:"#7F77DD",name:"Flag incomplete submissions",desc:"Run a batch of 10 claims through the data tool to flag missing fields. Review accuracy."},
-      {wk:"Week 7–8",phase:"Ready",col:"#7F77DD",name:"Pattern-spotting in backlogs",desc:"Ask the summarisation tool to identify the top 3 reasons for delays in your last 30 claims."},
-      {wk:"Week 9–10",phase:"Bold",col:"#534AB7",name:"Team experiment — live review",desc:"Run one claims review meeting using AI-generated summaries instead of manual prep. Debrief."},
-      {wk:"Week 11–12",phase:"Bold",col:"#534AB7",name:"Propose one workflow change",desc:"Based on your 10 experiments: pitch one permanent AI integration to your manager with evidence."},
-    ]
-  },
-  "Customer Experience": {
-    color: "var(--teal-600)", bg: "var(--teal-50)", weeks: 12, total: 10,
-    tracks: [
-      {wk:"Week 1–2",phase:"Curious",col:"#5DCAA5",name:"Complaint tone analysis",desc:"Paste 5 complaint emails into the AI tool. Ask it to categorise by sentiment and urgency. Does it match your read?"},
-      {wk:"Week 3–4",phase:"Curious",col:"#5DCAA5",name:"Draft response templates",desc:"Use the writing assistant to draft 3 standard response templates for your top complaint types."},
-      {wk:"Week 5–6",phase:"Ready",col:"#1D9E75",name:"Summarise weekly feedback",desc:"Ask the summarisation tool to find the top 5 themes from last week's customer feedback log."},
-      {wk:"Week 7–8",phase:"Ready",col:"#1D9E75",name:"CX co-pilot trial",desc:"Use the customer service AI co-pilot on 10 live queries. Track where it helped vs. where you overrode it."},
-      {wk:"Week 9–10",phase:"Bold",col:"#0F6E56",name:"Team feedback review session",desc:"Run your monthly feedback review using AI-generated summaries. Compare quality to manual prep."},
-      {wk:"Week 11–12",phase:"Bold",col:"#0F6E56",name:"Propose co-pilot expansion",desc:"Based on trial data: recommend which query types the co-pilot should handle fully vs. assist only."},
-    ]
-  },
-  "Finance": {
-    color: "var(--amber-600)", bg: "var(--amber-50)", weeks: 14, total: 10,
-    tracks: [
-      {wk:"Week 1–2",phase:"Curious",col:"#EF9F27",name:"Summarise a report",desc:"Run last month's finance report through the summarisation tool. Is the output accurate? What did it miss?"},
-      {wk:"Week 3–4",phase:"Curious",col:"#EF9F27",name:"Draft a data commentary",desc:"Use the writing assistant to generate a first draft commentary on one set of financial figures."},
-      {wk:"Week 5–7",phase:"Ready",col:"#BA7517",name:"Identify anomalies in data",desc:"Ask the data tool to flag outliers in a financial dataset. Cross-check against your own review."},
-      {wk:"Week 8–10",phase:"Ready",col:"#BA7517",name:"Compliance checklist assist",desc:"Use AI to check a process document against a compliance checklist. Note gaps and false positives."},
-      {wk:"Week 11–12",phase:"Bold",col:"#854F0B",name:"Team workflow audit",desc:"Map one team workflow using AI assistance. Identify 2 tasks where AI helps and 1 where it creates risk."},
-      {wk:"Week 13–14",phase:"Bold",col:"#854F0B",name:"Risk-aware proposal",desc:"Write a one-page proposal for one AI integration — including the compliance and error-risk section."},
-    ]
-  },
-  "HR": {
-    color: "var(--coral-600)", bg: "var(--coral-50)", weeks: 12, total: 10,
-    tracks: [
-      {wk:"Week 1–2",phase:"Curious",col:"#F0997B",name:"Draft a job description",desc:"Use the writing assistant to draft one JD from a brief. How much editing did it need?"},
-      {wk:"Week 3–4",phase:"Curious",col:"#F0997B",name:"Summarise exit interview themes",desc:"Run last quarter's exit interview notes through the summarisation tool. What themes does it surface?"},
-      {wk:"Week 5–6",phase:"Ready",col:"#D85A30",name:"Policy Q&A bot test",desc:"Test the writing assistant as a policy FAQ responder. Ask it 5 common employee HR questions."},
-      {wk:"Week 7–8",phase:"Ready",col:"#D85A30",name:"Onboarding material review",desc:"Ask AI to review your onboarding guide for clarity and gaps. Compare to new-hire feedback."},
-      {wk:"Week 9–10",phase:"Bold",col:"#993C1D",name:"Engagement survey analysis",desc:"Feed engagement survey data to the summarisation tool. Does it surface the same priorities as your read?"},
-      {wk:"Week 11–12",phase:"Bold",col:"#993C1D",name:"Build one AI-assisted process",desc:"Redesign one HR process (e.g. leave approval comms) with AI assistance built in. Test with one team."},
-    ]
-  }
+// ── TRACK DATA ──
+const tracks = {
+  Claims: [
+    { wk: "Week 1", name: "Your first 10-minute test", desc: "Use the claims note summariser on one real case. Time it. Post what happened.", cards: "All 4 types" },
+    { wk: "Week 2", name: "The error-catching experiment", desc: "Let AI draft a summary, then find what it missed or got wrong. Document the gap.", cards: "All 4 types" },
+    { wk: "Week 3", name: "SLA compliance check", desc: "Ask AI to flag SLA risk flags in 5 claim notes. Compare to your own read.", cards: "All 4 types" },
+    { wk: "Week 4", name: "Share your prompt", desc: "Write and share a prompt template your team can reuse. Post it as a tutorial.", cards: "All 4 types" },
+    { wk: "Week 5", name: "Team experiment day", desc: "Run the same AI task with two teammates. Compare outputs. What varied?", cards: "All 4 types" },
+    { wk: "Week 6", name: "Speed vs accuracy test", desc: "Track time saved vs errors introduced across 10 claims. Is the tradeoff worth it?", cards: "All 4 types" },
+    { wk: "Week 7", name: "Manager co-sign", desc: "Manager reviews one AI-assisted claim summary before filing. Post the conversation.", cards: "All 4 types" },
+    { wk: "Week 8", name: "The workflow map", desc: "Map one existing claims workflow. Mark where AI helps, where it doesn't, and why.", cards: "All 4 types" },
+    { wk: "Week 9", name: "Teach it to a peer", desc: "Walk a colleague through your best AI use case. Document their reaction.", cards: "All 4 types" },
+    { wk: "Week 10", name: "Habit check", desc: "Without Spark prompting you — what AI tasks are you now doing automatically? That's the answer.", cards: "All 4 types" },
+  ],
+  HR: [
+    { wk: "Week 1", name: "JD rewrite in 10 minutes", desc: "Take one existing job description. Ask AI to improve clarity. Compare before and after.", cards: "All 4 types" },
+    { wk: "Week 2", name: "Screening question generator", desc: "Ask AI to generate 10 interview questions for a current open role. Keep the good ones.", cards: "All 4 types" },
+    { wk: "Week 3", name: "Policy plain-language test", desc: "Take one HR policy. Ask AI to rewrite it in plain language for new joiners.", cards: "All 4 types" },
+    { wk: "Week 4", name: "Onboarding checklist build", desc: "Generate a role-specific onboarding checklist. What did it get right? What was missing?", cards: "All 4 types" },
+    { wk: "Week 5", name: "Feedback letter draft", desc: "Use AI to draft a performance feedback summary. Edit it. Post the diff.", cards: "All 4 types" },
+    { wk: "Week 6", name: "Survey analysis test", desc: "Paste anonymised engagement survey responses. Ask AI to identify top 3 themes.", cards: "All 4 types" },
+    { wk: "Week 7", name: "Hard conversation prep", desc: "Use AI to help prepare talking points for a difficult performance conversation.", cards: "All 4 types" },
+    { wk: "Week 8", name: "Process efficiency map", desc: "Which HR tasks take the most time? Map them. Identify two AI-assist candidates.", cards: "All 4 types" },
+    { wk: "Week 9", name: "Peer coaching", desc: "Share your best HR-specific prompt with a colleague. Help them run it.", cards: "All 4 types" },
+    { wk: "Week 10", name: "Habit check", desc: "Which HR tasks are you now using AI for automatically — without being asked?", cards: "All 4 types" },
+  ],
+  Finance: [
+    { wk: "Week 1", name: "Report outline in 5 minutes", desc: "Ask AI to generate a monthly financial report outline. Time it. Is it usable?", cards: "All 4 types" },
+    { wk: "Week 2", name: "Data summariser test", desc: "Paste a table of figures. Ask AI to identify the 3 most important trends.", cards: "All 4 types" },
+    { wk: "Week 3", name: "Variance explanation draft", desc: "Use AI to draft an explanation for a budget variance. Edit before sending.", cards: "All 4 types" },
+    { wk: "Week 4", name: "The accuracy check", desc: "Run AI on 10 data points you already know. How many errors? Document them.", cards: "All 4 types" },
+    { wk: "Week 5", name: "Forecast narrative", desc: "Ask AI to write the narrative section of a forecast based on your numbers.", cards: "All 4 types" },
+    { wk: "Week 6", name: "Compliance check prompt", desc: "Build a prompt that checks a report section against one internal policy rule.", cards: "All 4 types" },
+    { wk: "Week 7", name: "Cross-function comparison", desc: "Compare how a colleague in another function is using AI. Any crossover?", cards: "All 4 types" },
+    { wk: "Week 8", name: "Risk flag experiment", desc: "Ask AI to identify potential risk flags in a financial summary. Validate against your read.", cards: "All 4 types" },
+    { wk: "Week 9", name: "Manager review", desc: "Your manager reviews one AI-assisted finance output. Post their feedback.", cards: "All 4 types" },
+    { wk: "Week 10", name: "Habit check", desc: "What finance tasks are you now running AI on automatically? That's the number that matters.", cards: "All 4 types" },
+  ],
+  CX: [
+    { wk: "Week 1", name: "Reply draft in 3 minutes", desc: "Use AI to draft a response to a real customer complaint. Edit before sending.", cards: "All 4 types" },
+    { wk: "Week 2", name: "Tone calibration test", desc: "Ask AI to rewrite the same reply in 3 different tones. Which fits Nova's voice?", cards: "All 4 types" },
+    { wk: "Week 3", name: "FAQ generator", desc: "Paste 10 customer queries. Ask AI to identify the top 3 repeating questions.", cards: "All 4 types" },
+    { wk: "Week 4", name: "Escalation script", desc: "Use AI to draft an escalation script for one common complaint type.", cards: "All 4 types" },
+    { wk: "Week 5", name: "CSAT prediction test", desc: "Ask AI to score 5 completed customer interactions by likely satisfaction. Compare to actuals.", cards: "All 4 types" },
+    { wk: "Week 6", name: "Language localisation", desc: "Test AI on translating or adapting one customer reply for a different market.", cards: "All 4 types" },
+    { wk: "Week 7", name: "Speed test", desc: "Track time from query to response with and without AI assist. Post the data.", cards: "All 4 types" },
+    { wk: "Week 8", name: "Team script review", desc: "Share your AI-built script with the team. Collect edits. Improve it together.", cards: "All 4 types" },
+    { wk: "Week 9", name: "The hard query test", desc: "Take your most difficult recent customer query. What does AI do with it?", cards: "All 4 types" },
+    { wk: "Week 10", name: "Habit check", desc: "Which CX tasks are you now using AI on without thinking about it? Post them.", cards: "All 4 types" },
+  ]
 };
 
-function setFnTab(fn) {
-  document.querySelectorAll('.fntab').forEach(b => b.classList.remove('active'));
-  document.getElementById('fnt-'+fn.replace(/\s/g,'_')).classList.add('active');
-  const d = fnData[fn];
-  const panels = document.getElementById('fn-panels');
-  panels.innerHTML = `
-    <div style="display:grid;grid-template-columns:1fr 2fr;gap:1.5rem;align-items:start;" class="fn-layout">
-      <div class="card-sm">
-        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:1rem;">Function overview</div>
-        <div class="stat-box" style="margin-bottom:10px;"><div class="stat-num">${d.total}</div><div class="stat-lbl">challenges to habit</div></div>
-        <div class="stat-box" style="margin-bottom:10px;"><div class="stat-num">${d.weeks} wks</div><div class="stat-lbl">recommended timeline</div></div>
-        <div class="habit-badge"><i class="ti ti-trophy" style="font-size:16px;" aria-hidden="true"></i> Habit formed at week ${d.weeks}</div>
-        <div style="margin-top:1rem;">
-          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:8px;">Difficulty levels</div>
-          <div style="display:flex;flex-direction:column;gap:6px;">
-            <div style="display:flex;align-items:center;gap:8px;font-size:12px;"><div style="width:10px;height:10px;border-radius:50%;background:#AFA9EC;flex-shrink:0;"></div><span>Curious — low stakes, high guidance</span></div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:12px;"><div style="width:10px;height:10px;border-radius:50%;background:#534AB7;flex-shrink:0;"></div><span>Ready — moderate autonomy</span></div>
-            <div style="display:flex;align-items:center;gap:8px;font-size:12px;"><div style="width:10px;height:10px;border-radius:50%;background:#26215C;flex-shrink:0;"></div><span>Bold — team impact, proposes change</span></div>
+function renderTrack(fn) {
+  document.querySelectorAll('.ttab').forEach(t => t.classList.toggle('active', t.dataset.fn === fn));
+  const weeks = tracks[fn];
+  document.getElementById('track-panel').innerHTML = `
+    <div class="week-grid">
+      ${weeks.map((w, i) => `
+        <div class="week-item">
+          <div class="week-num">${w.wk}</div>
+          <div class="week-content">
+            <div class="week-title">${w.name}</div>
+            <div class="week-desc">${w.desc}</div>
+            <div class="week-cards">
+              <span class="wc wc-f">🔴 5 Fear</span>
+              <span class="wc wc-a">🔵 5 Action</span>
+              <span class="wc wc-e">🟢 5 Experiment</span>
+              <span class="wc wc-l">🟡 5 Learning</span>
+            </div>
+            ${i === 9 ? '<div class="week-completion"><strong>✓ Habit formed</strong> — 10 weeks complete. Spark challenge track retires.</div>' : ''}
           </div>
         </div>
-      </div>
-      <div>
-        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:1rem;">Challenge track — ${fn}</div>
-        <div class="challenge-track">
-          ${d.tracks.map(t=>`
-            <div class="challenge-item">
-              <div class="challenge-dot" style="background:${t.col};"></div>
-              <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:10px 14px;">
-                <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-                  <div class="challenge-wk">${t.wk}</div>
-                  <div style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;background:${t.col}22;color:${t.col};">${t.phase}</div>
-                </div>
-                <div class="challenge-name">${t.name}</div>
-                <div class="challenge-desc">${t.desc}</div>
-              </div>
-            </div>`).join('')}
-        </div>
-      </div>
+      `).join('')}
     </div>
-    <style>.fn-layout{grid-template-columns:1fr 2fr;}@media(max-width:600px){.fn-layout{grid-template-columns:1fr;}}</style>
   `;
 }
 
+const trackTabsEl = document.getElementById('track-tabs');
+Object.keys(tracks).forEach(fn => {
+  const b = document.createElement('button');
+  b.className = 'ttab';
+  b.textContent = fn;
+  b.dataset.fn = fn;
+  b.onclick = () => renderTrack(fn);
+  trackTabsEl.appendChild(b);
+});
+renderTrack('Claims');
+
+// ── MANAGEMENT DATA ──
 const mgmtData = [
   {
-    title: "Team manager view (Marcus level)",
-    desc: "Visible weekly. Focus: team momentum and who needs a nudge — not individual compliance tracking.",
-    stats: [{n:"11/14",l:"team members started",t:"+3 this week",tc:"color:var(--teal-600)"},{n:"38",l:"experiments run",t:"avg 2.7 per person",tc:"color:var(--text-muted)"},{n:"6",l:"functions tried",t:"across the team",tc:"color:var(--text-muted)"},{n:"3",l:"ready to go Bold",t:"challenge tier",tc:"color:var(--purple-600)"}],
-    progress: [
-      {l:"Claims processing",pct:78,col:"#534AB7"},{l:"Response drafting",pct:64,col:"#534AB7"},{l:"Report summarising",pct:45,col:"#7F77DD"},{l:"Pattern analysis",pct:22,col:"#AFA9EC"}
+    title: "Team Manager View — Marcus level",
+    desc: "Visible weekly. Focus: which team members are keeping pace and who might need a check-in. No individual compliance tracking.",
+    stats: [
+      { n: "11/14", l: "team members active", t: "+3 this week", c: "var(--experiment)" },
+      { n: "312", l: "total cards posted", t: "avg 22/person", c: "var(--ink-3)" },
+      { n: "5/6", l: "weeks on streak", t: "team completion", c: "var(--spark)" },
+      { n: "4,820", l: "team points this week", t: "+18% vs last week", c: "var(--experiment)" }
     ],
-    note: "Individual names are not shown in team completion tracking. Managers see group-level momentum only. To check in with someone, use the 1:1 conversation guide inside Spark."
+    progress: [
+      { l: "Fear Cards", pct: 91 },
+      { l: "Action Cards", pct: 88 },
+      { l: "Experiment Cards", pct: 76 },
+      { l: "Learning Cards", pct: 71 },
+      { l: "Reflections posted", pct: 64 },
+    ],
+    note: "Individual names are not shown in completion tracking. Managers see group-level momentum only. To check in with someone, use the 1:1 conversation guide inside Spark."
   },
   {
-    title: "Department head view (Director level)",
-    desc: "Visible monthly. Cross-team comparison and function-level adoption rates across the country office.",
-    stats: [{n:"68%",l:"dept adoption rate",t:"+12% vs last month",tc:"color:var(--teal-600)"},{n:"214",l:"experiments run",t:"across 6 teams",tc:"color:var(--text-muted)"},{n:"4/6",l:"teams at habit stage",t:"≥8 challenges done",tc:"color:var(--teal-600)"},{n:"2",l:"teams need support",t:"<3 experiments",tc:"color:var(--coral-600)"}],
-    progress: [
-      {l:"Claims (Bangkok)",pct:82,col:"#534AB7"},{l:"CX (KL)",pct:74,col:"#1D9E75"},{l:"Finance (Shanghai)",pct:55,col:"#BA7517"},{l:"HR (Jakarta)",pct:48,col:"#D85A30"},{l:"Underwriting (PNH)",pct:31,col:"#888780"}
+    title: "Department Head View — Director level",
+    desc: "Visible monthly. Cross-team card activity and function-level adoption rates across the country office.",
+    stats: [
+      { n: "68%", l: "dept completion rate", t: "+12% vs last month", c: "var(--experiment)" },
+      { n: "4,210", l: "cards posted dept-wide", t: "across 6 teams", c: "var(--ink-3)" },
+      { n: "4/6", l: "teams on streak", t: "≥8 weeks complete", c: "var(--experiment)" },
+      { n: "2", l: "teams need support", t: "<3 weeks completed", c: "var(--fear)" }
     ],
-    note: "Monthly report auto-sent to department heads. Includes: top 3 experiments by impact, teams flagged for support, and one cross-office story to share at the next all-hands."
+    progress: [
+      { l: "Claims (Bangkok)", pct: 82 },
+      { l: "CX (KL)", pct: 74 },
+      { l: "Finance (Shanghai)", pct: 55 },
+      { l: "HR (Jakarta)", pct: 48 },
+      { l: "Underwriting (PNH)", pct: 31 },
+    ],
+    note: "Monthly report auto-sent to department heads. Includes: top 3 posts by engagement, teams flagged for support, and one cross-office learning to share at the next all-hands."
   },
   {
-    title: "Executive / CEO view",
-    desc: "Visible quarterly. Company-wide transformation progress toward the 18-month goal.",
-    stats: [{n:"72%",l:"of 8,000 staff active",t:"target: 85% by M12",tc:"color:var(--amber-600)"},{n:"4,210",l:"experiments completed",t:"company-wide",tc:"color:var(--text-muted)"},{n:"1,830",l:"staff reached habit",t:"≥10 challenges done",tc:"color:var(--teal-600)"},{n:"31",l:"teams using ≥2 AI tools",t:"vs 4 six months ago",tc:"color:var(--teal-600)"}],
-    progress: [
-      {l:"Bangkok",pct:79,col:"#534AB7"},{l:"Kuala Lumpur",pct:74,col:"#534AB7"},{l:"Jakarta",pct:61,col:"#7F77DD"},{l:"Shanghai",pct:55,col:"#7F77DD"},{l:"Phnom Penh",pct:42,col:"#AFA9EC"}
+    title: "CEO / Executive View",
+    desc: "Visible quarterly. Company-wide card activity and progress toward the 18-month transformation goal.",
+    stats: [
+      { n: "72%", l: "of 8,000 staff active", t: "target: 85% by M12", c: "var(--learning)" },
+      { n: "94,200", l: "total cards posted", t: "company-wide", c: "var(--ink-3)" },
+      { n: "1,830", l: "staff at habit stage", t: "≥10 weeks complete", c: "var(--experiment)" },
+      { n: "31", l: "teams using ≥2 AI tools", t: "vs 4 six months ago", c: "var(--experiment)" }
     ],
-    note: "CEO quarterly dashboard includes: country adoption heatmap, function-level progress, top 5 employee stories, and one risk flag (offices or functions below 40% with a recommended action)."
+    progress: [
+      { l: "Bangkok", pct: 79 },
+      { l: "Kuala Lumpur", pct: 74 },
+      { l: "Jakarta", pct: 61 },
+      { l: "Shanghai", pct: 55 },
+      { l: "Phnom Penh", pct: 42 },
+    ],
+    note: "CEO quarterly dashboard includes: country adoption heatmap, function-level card activity, top 5 employee learning stories, and one risk flag for offices below 40% with a recommended action."
   }
 ];
 
 function setMTab(i) {
-  document.querySelectorAll('.mtab').forEach((b,j)=>b.className='mtab'+(j===i?' active':''));
+  document.querySelectorAll('.mtab').forEach((b, j) => b.classList.toggle('active', j === i));
   const d = mgmtData[i];
-  document.getElementById('mgmt-panels').innerHTML = `
-    <div class="card">
+  document.getElementById('mgmt-panel').innerHTML = `
+    <div style="background:var(--white);border:1px solid var(--rule);border-radius:var(--r-lg);padding:1.5rem;">
       <h3 style="margin-bottom:4px;">${d.title}</h3>
-      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:1.25rem;">${d.desc}</p>
-      <div class="stat-grid">
-        ${d.stats.map(s=>`<div class="stat-box"><div class="stat-num">${s.n}</div><div class="stat-lbl">${s.l}</div><div class="stat-trend ${s.tc}">${s.t}</div></div>`).join('')}
+      <p style="font-size:13px;color:var(--ink-3);margin-bottom:1.25rem;">${d.desc}</p>
+      <div class="stat-row">
+        ${d.stats.map(s => `
+          <div class="stat-box">
+            <div class="stat-n">${s.n}</div>
+            <div class="stat-l">${s.l}</div>
+            <div class="stat-t" style="color:${s.c}">${s.t}</div>
+          </div>`).join('')}
       </div>
-      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:10px;">Challenge completion by area</div>
-      ${d.progress.map(p=>`
-        <div class="progress-row">
-          <div class="progress-label">${p.l}</div>
-          <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${p.pct}%;background:${p.col};"></div></div>
-          <div class="progress-pct">${p.pct}%</div>
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-3);margin-bottom:10px;">Card completion by area</div>
+      ${d.progress.map(p => `
+        <div class="prog-row">
+          <div class="prog-lbl">${p.l}</div>
+          <div class="prog-wrap"><div class="prog-fill" style="width:${p.pct}%;"></div></div>
+          <div class="prog-pct">${p.pct}%</div>
         </div>`).join('')}
-      <div style="margin-top:1.25rem;padding:1rem;background:var(--gray-50);border-radius:var(--radius-md);border-left:3px solid var(--amber-400);">
-        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--amber-600);margin-bottom:4px;">Design note</div>
-        <div style="font-size:13px;color:var(--text-secondary);line-height:1.6;">${d.note}</div>
+      <div class="design-note">
+        <div class="dn-label">Design note</div>
+        <div class="dn-text">${d.note}</div>
       </div>
-    </div>`;
+    </div>
+  `;
 }
-
-const fnNames = Object.keys(fnData);
-const fnTabContainer = document.getElementById('fn-tabs');
-fnNames.forEach(fn => {
-  const b = document.createElement('button');
-  b.className = 'fntab' + (fn==='Claims'?' active':'');
-  b.id = 'fnt-'+fn.replace(/\s/g,'_');
-  b.textContent = fn;
-  b.onclick = ()=>setFnTab(fn);
-  fnTabContainer.appendChild(b);
-});
-
-setJTab(0);
-setFnTab('Claims');
 setMTab(0);
 
+// ── SCROLL SPY ──
 const navLinks = document.querySelectorAll('.nav-link');
 const sections = document.querySelectorAll('section[id]');
 window.addEventListener('scroll', () => {
   let cur = '';
   sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
-  navLinks.forEach(l => { l.classList.toggle('active', l.getAttribute('href')==='#'+cur); });
+  navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + cur));
 });
 </script>
 </body>
