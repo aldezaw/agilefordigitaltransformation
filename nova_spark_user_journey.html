@@ -1,0 +1,241 @@
+
+<h2 class="sr-only">Nova Spark — interactive user journey map showing how employees experience the AI adoption tool across 5 stages</h2>
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.journey-wrap { padding: 1.5rem 0; }
+.journey-header { margin-bottom: 2rem; }
+.tool-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 8px 16px; margin-bottom: 1rem; }
+.tool-badge .spark { width: 28px; height: 28px; border-radius: 8px; background: #534AB7; display: flex; align-items: center; justify-content: center; }
+.tool-name { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
+.tool-tagline { font-size: 13px; color: var(--color-text-secondary); }
+.stages-nav { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.stage-btn { border: 0.5px solid var(--color-border-tertiary); background: var(--color-background-primary); border-radius: var(--border-radius-md); padding: 8px 14px; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; color: var(--color-text-secondary); transition: all 0.15s; }
+.stage-btn.active { border-color: #534AB7; background: #EEEDFE; color: #3C3489; font-weight: 500; }
+.stage-btn:hover:not(.active) { background: var(--color-background-secondary); color: var(--color-text-primary); }
+.stage-num { width: 20px; height: 20px; border-radius: 50%; font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; }
+.stage-btn.active .stage-num { background: #534AB7; color: #fff; }
+.stage-btn:not(.active) .stage-num { background: var(--color-background-secondary); color: var(--color-text-secondary); }
+.journey-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+.row-label { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.row-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; }
+.row-card.highlight { border-color: #AFA9EC; background: #EEEDFE; }
+.row-card.feelings-card { border-left: 3px solid #1D9E75; border-radius: 0 var(--border-radius-lg) var(--border-radius-lg) 0; }
+.row-card.barrier-card { border-left: 3px solid #D85A30; border-radius: 0 var(--border-radius-lg) var(--border-radius-lg) 0; }
+.row-card.feature-card { border-left: 3px solid #534AB7; border-radius: 0 var(--border-radius-lg) var(--border-radius-lg) 0; }
+.card-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 6px; }
+.card-body { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+.tag-list { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.tag { font-size: 11px; padding: 3px 10px; border-radius: 20px; }
+.tag-purple { background: #EEEDFE; color: #3C3489; }
+.tag-teal { background: #E1F5EE; color: #0F6E56; }
+.tag-coral { background: #FAECE7; color: #993C1D; }
+.tag-amber { background: #FAEEDA; color: #854F0B; }
+.emotion-row { display: flex; align-items: center; gap: 12px; }
+.emotion-icon { font-size: 22px; }
+.stage-flow { display: flex; align-items: center; gap: 0; margin-bottom: 1.5rem; overflow-x: auto; padding-bottom: 4px; }
+.flow-node { text-align: center; min-width: 100px; }
+.flow-circle { width: 40px; height: 40px; border-radius: 50%; margin: 0 auto 6px; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; border: 2px solid transparent; transition: all 0.15s; }
+.flow-circle.active { border-color: #534AB7; box-shadow: 0 0 0 3px #EEEDFE; }
+.flow-arrow { flex: 1; height: 1px; background: var(--color-border-tertiary); min-width: 20px; position: relative; top: -12px; }
+.flow-label { font-size: 11px; color: var(--color-text-secondary); max-width: 90px; margin: 0 auto; line-height: 1.4; }
+.flow-label.active-lbl { color: #3C3489; font-weight: 500; }
+.section-divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 1.5rem 0; }
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 8px; }
+.feature-pill { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px 12px; font-size: 12px; color: var(--color-text-secondary); display: flex; align-items: flex-start; gap: 8px; }
+.feature-pill i { font-size: 16px; color: #534AB7; flex-shrink: 0; margin-top: 1px; }
+.metric-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 8px; }
+.metric-box { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px; text-align: center; }
+.metric-num { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+.metric-lbl { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+</style>
+
+<div class="journey-wrap">
+
+<div class="journey-header">
+  <div class="tool-badge">
+    <div class="spark"><i class="ti ti-bolt" style="color:#fff;font-size:16px" aria-hidden="true"></i></div>
+    <div>
+      <div class="tool-name">Nova Spark</div>
+      <div class="tool-tagline">Your weekly AI experiment companion</div>
+    </div>
+  </div>
+  <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;">Deployed across all Nova offices (Bangkok, KL, Jakarta, Phnom Penh, Shanghai). Available on web + mobile. Opt-in weekly, no pressure to get it right.</p>
+</div>
+
+<div class="stage-flow">
+  <div class="flow-node">
+    <div class="flow-circle active" style="background:#EEEDFE;" onclick="setStage(0)" id="fc0"><i class="ti ti-door-enter" style="color:#534AB7;font-size:18px" aria-hidden="true"></i></div>
+    <div class="flow-label active-lbl" id="fl0">Join &amp; discover</div>
+  </div>
+  <div class="flow-arrow"></div>
+  <div class="flow-node">
+    <div class="flow-circle" style="background:#E1F5EE;" onclick="setStage(1)" id="fc1"><i class="ti ti-target" style="color:#0F6E56;font-size:18px" aria-hidden="true"></i></div>
+    <div class="flow-label" id="fl1">Pick a challenge</div>
+  </div>
+  <div class="flow-arrow"></div>
+  <div class="flow-node">
+    <div class="flow-circle" style="background:#FAEEDA;" onclick="setStage(2)" id="fc2"><i class="ti ti-device-laptop" style="color:#854F0B;font-size:18px" aria-hidden="true"></i></div>
+    <div class="flow-label" id="fl2">Try it this week</div>
+  </div>
+  <div class="flow-arrow"></div>
+  <div class="flow-node">
+    <div class="flow-circle" style="background:#FAECE7;" onclick="setStage(3)" id="fc3"><i class="ti ti-messages" style="color:#993C1D;font-size:18px" aria-hidden="true"></i></div>
+    <div class="flow-label" id="fl3">Share &amp; reflect</div>
+  </div>
+  <div class="flow-arrow"></div>
+  <div class="flow-node">
+    <div class="flow-circle" style="background:#E1F5EE;" onclick="setStage(4)" id="fc4"><i class="ti ti-trophy" style="color:#0F6E56;font-size:18px" aria-hidden="true"></i></div>
+    <div class="flow-label" id="fl4">Build habit</div>
+  </div>
+</div>
+
+<div class="stages-nav">
+  <button class="stage-btn active" onclick="setStage(0)" id="sb0"><span class="stage-num">1</span> Join &amp; discover</button>
+  <button class="stage-btn" onclick="setStage(1)" id="sb1"><span class="stage-num">2</span> Pick a challenge</button>
+  <button class="stage-btn" onclick="setStage(2)" id="sb2"><span class="stage-num">3</span> Try it this week</button>
+  <button class="stage-btn" onclick="setStage(3)" id="sb3"><span class="stage-num">4</span> Share &amp; reflect</button>
+  <button class="stage-btn" onclick="setStage(4)" id="sb4"><span class="stage-num">5</span> Build habit</button>
+</div>
+
+<div id="stage-content"></div>
+
+</div>
+
+<script>
+const stages = [
+  {
+    title: "Stage 1 — Join & discover",
+    objective: "Employee lands on Nova Spark for the first time — triggered by a manager nudge, a team announcement, or a company-wide push notification.",
+    needs: "Understand what this is, why it exists, and that it won't waste their time or judge them for being a beginner.",
+    feeling: "Cautious but curious. Slightly suspicious of another initiative.",
+    barrier: "\"Is this another mandatory thing that goes nowhere?\" Low trust from past initiative fatigue.",
+    features: [
+      { icon: "ti-user-circle", text: "30-second role setup — pick your function (Claims, Finance, Customer Service, etc.)" },
+      { icon: "ti-mood-smile", text: "Comfort level check-in — 3 options: 'AI newbie', 'Heard of it', 'Already using it'" },
+      { icon: "ti-eye", text: "Show 3 recent wins from colleagues in your role — real names, real tasks" },
+      { icon: "ti-lock-open", text: "No login required for first 10 minutes — explore before committing" }
+    ],
+    tags: ["Onboarding", "Role personalisation", "Social proof"],
+    tagType: ["purple", "teal", "amber"]
+  },
+  {
+    title: "Stage 2 — Pick a challenge",
+    objective: "Employee selects one specific AI experiment to try this week, matched to their actual role and comfort level.",
+    needs: "A concrete, role-relevant starting point. Not 12 tools with no context — one clear thing to do on Tuesday.",
+    feeling: "Relieved to have a clear next step. Slightly nervous about getting it wrong.",
+    barrier: "Choice paralysis. Too many options = inaction. Generic examples = disconnect.",
+    features: [
+      { icon: "ti-filter", text: "Role-filtered challenges — Marcus sees Claims tasks, Priya sees CX tasks" },
+      { icon: "ti-clock", text: "Time estimate on every card — '15 min', '30 min', 'Under 5 min'" },
+      { icon: "ti-chart-bar", text: "Difficulty badge — Curious / Ready / Bold so people self-select" },
+      { icon: "ti-users", text: "\"X teammates tried this\" counter — nudges via social norms" },
+      { icon: "ti-bookmark", text: "Save for later — no pressure to commit immediately" }
+    ],
+    tags: ["Role filtering", "Time-boxed", "Self-paced"],
+    tagType: ["teal", "purple", "amber"]
+  },
+  {
+    title: "Stage 3 — Try it this week",
+    objective: "Employee does the experiment. The app guides them through a real AI task with their real work, step by step.",
+    needs: "Clear instructions that connect the AI tool to a task they already do. Permission to produce an imperfect result.",
+    feeling: "Focused. Possibly frustrated mid-task, but helped through it.",
+    barrier: "\"I tried it and it gave a bad answer — this doesn't work.\" Misread failure as tool failure, not prompting gap.",
+    features: [
+      { icon: "ti-list-check", text: "Step-by-step guided task — not a video, an interactive walkthrough" },
+      { icon: "ti-bulb", text: "Prompt starter included — paste your actual content, try this prompt" },
+      { icon: "ti-refresh", text: "'That didn't work' button — gives a tip to retry, normalises imperfection" },
+      { icon: "ti-help-circle", text: "In-app AI Champion contact — ping your team's champion without leaving Spark" },
+      { icon: "ti-clock-pause", text: "Pause and resume — save progress, continue tomorrow" }
+    ],
+    tags: ["Guided task", "Fail-safe design", "Champion support"],
+    tagType: ["purple", "coral", "teal"]
+  },
+  {
+    title: "Stage 4 — Share & reflect",
+    objective: "Employee logs what happened — what worked, what didn't — and optionally shares with their team or the broader Nova community.",
+    needs: "A quick, low-effort way to reflect. Recognition that doesn't feel hollow. Safe to say 'it didn't work'.",
+    feeling: "Proud if it worked. Curious if it didn't. Either way, ready to say something.",
+    barrier: "Sharing culture is low. People don't want to look incompetent or be judged for an unimpressive result.",
+    features: [
+      { icon: "ti-pencil", text: "3-question micro-reflection — 'What I tried', 'What happened', 'Would I use it again?'" },
+      { icon: "ti-thumb-up", text: "Post to team feed or keep private — employee controls visibility" },
+      { icon: "ti-star", text: "Spark points earned — redeemable for small perks (coffee, half-day, team lunch)" },
+      { icon: "ti-chart-line", text: "Manager dashboard update — team completion visible without naming who didn't" },
+      { icon: "ti-award", text: "Badge for 'First experiment done' — low bar, high meaning for hesitant adopters" }
+    ],
+    tags: ["Psychological safety", "Recognition", "Team visibility"],
+    tagType: ["teal", "amber", "purple"]
+  },
+  {
+    title: "Stage 5 — Build habit",
+    objective: "Employee returns next week. The habit loop forms: new challenge, try, share. Mindset shifts from 'what's the plan' to 'what can I test'.",
+    needs: "A reason to come back that isn't obligation. Progress that feels real. Team momentum.",
+    feeling: "A little competitive (in a good way). Growing confidence. Starting to see AI as a tool not a threat.",
+    barrier: "Without a pull, people drift. The tool can't just reward completion — it has to create genuine curiosity.",
+    features: [
+      { icon: "ti-bell", text: "Weekly nudge — personalised, not generic. 'Priya, your team tried 4 experiments this week'" },
+      { icon: "ti-trending-up", text: "Personal AI map — visual log of every experiment, built over time" },
+      { icon: "ti-users-group", text: "Team leaderboard (opt-in) — tracks experiments, not hours or scores" },
+      { icon: "ti-building", text: "Cross-office feed — see what Bangkok or Jakarta teams are trying" },
+      { icon: "ti-certificate", text: "Monthly 'Sparker' recognition — manager nominates, CEO mentions in town hall" }
+    ],
+    tags: ["Habit loop", "Community", "Org-wide visibility"],
+    tagType: ["purple", "teal", "amber"]
+  }
+];
+
+const tagColors = { purple: "tag-purple", teal: "tag-teal", coral: "tag-coral", amber: "tag-amber" };
+
+function setStage(i) {
+  for (let j = 0; j < 5; j++) {
+    document.getElementById('sb'+j).className = 'stage-btn' + (j===i ? ' active' : '');
+    const fc = document.getElementById('fc'+j);
+    const fl = document.getElementById('fl'+j);
+    fc.className = 'flow-circle' + (j===i ? ' active' : '');
+    fl.className = 'flow-label' + (j===i ? ' active-lbl' : '');
+  }
+  const s = stages[i];
+  document.getElementById('stage-content').innerHTML = `
+    <div class="journey-grid">
+      <div>
+        <div class="row-label"><i class="ti ti-target" aria-hidden="true"></i> Objective</div>
+        <div class="row-card highlight">
+          <div class="card-title">${s.title}</div>
+          <div class="card-body">${s.objective}</div>
+          <div class="tag-list">${s.tags.map((t,k)=>`<span class="tag ${tagColors[s.tagType[k]]}">${t}</span>`).join('')}</div>
+        </div>
+      </div>
+      <div>
+        <div class="row-label"><i class="ti ti-heart" aria-hidden="true"></i> Employee need</div>
+        <div class="row-card">
+          <div class="card-body">${s.needs}</div>
+        </div>
+      </div>
+      <div>
+        <div class="row-label"><i class="ti ti-mood-smile" aria-hidden="true"></i> Feeling at this stage</div>
+        <div class="row-card feelings-card">
+          <div class="card-body">${s.feeling}</div>
+        </div>
+      </div>
+      <div>
+        <div class="row-label"><i class="ti ti-alert-triangle" aria-hidden="true"></i> Barrier to overcome</div>
+        <div class="row-card barrier-card">
+          <div class="card-body">${s.barrier}</div>
+        </div>
+      </div>
+      <div>
+        <div class="row-label"><i class="ti ti-device-mobile" aria-hidden="true"></i> Spark features at this stage</div>
+        <div class="row-card feature-card">
+          <div class="features-grid">
+            ${s.features.map(f=>`<div class="feature-pill"><i class="ti ${f.icon}" aria-hidden="true"></i><span>${f.text}</span></div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+setStage(0);
+</script>
