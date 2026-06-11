@@ -1,241 +1,802 @@
-
-<h2 class="sr-only">Nova Spark — interactive user journey map showing how employees experience the AI adoption tool across 5 stages</h2>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nova Spark — AI Adoption Companion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font-sans); }
-.journey-wrap { padding: 1.5rem 0; }
-.journey-header { margin-bottom: 2rem; }
-.tool-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 8px 16px; margin-bottom: 1rem; }
-.tool-badge .spark { width: 28px; height: 28px; border-radius: 8px; background: #534AB7; display: flex; align-items: center; justify-content: center; }
-.tool-name { font-size: 15px; font-weight: 500; color: var(--color-text-primary); }
-.tool-tagline { font-size: 13px; color: var(--color-text-secondary); }
-.stages-nav { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
-.stage-btn { border: 0.5px solid var(--color-border-tertiary); background: var(--color-background-primary); border-radius: var(--border-radius-md); padding: 8px 14px; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 6px; color: var(--color-text-secondary); transition: all 0.15s; }
-.stage-btn.active { border-color: #534AB7; background: #EEEDFE; color: #3C3489; font-weight: 500; }
-.stage-btn:hover:not(.active) { background: var(--color-background-secondary); color: var(--color-text-primary); }
-.stage-num { width: 20px; height: 20px; border-radius: 50%; font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; }
-.stage-btn.active .stage-num { background: #534AB7; color: #fff; }
-.stage-btn:not(.active) .stage-num { background: var(--color-background-secondary); color: var(--color-text-secondary); }
-.journey-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
-.row-label { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-.row-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; }
-.row-card.highlight { border-color: #AFA9EC; background: #EEEDFE; }
-.row-card.feelings-card { border-left: 3px solid #1D9E75; border-radius: 0 var(--border-radius-lg) var(--border-radius-lg) 0; }
-.row-card.barrier-card { border-left: 3px solid #D85A30; border-radius: 0 var(--border-radius-lg) var(--border-radius-lg) 0; }
-.row-card.feature-card { border-left: 3px solid #534AB7; border-radius: 0 var(--border-radius-lg) var(--border-radius-lg) 0; }
-.card-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 6px; }
-.card-body { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
-.tag-list { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
-.tag { font-size: 11px; padding: 3px 10px; border-radius: 20px; }
-.tag-purple { background: #EEEDFE; color: #3C3489; }
-.tag-teal { background: #E1F5EE; color: #0F6E56; }
-.tag-coral { background: #FAECE7; color: #993C1D; }
-.tag-amber { background: #FAEEDA; color: #854F0B; }
-.emotion-row { display: flex; align-items: center; gap: 12px; }
-.emotion-icon { font-size: 22px; }
-.stage-flow { display: flex; align-items: center; gap: 0; margin-bottom: 1.5rem; overflow-x: auto; padding-bottom: 4px; }
-.flow-node { text-align: center; min-width: 100px; }
-.flow-circle { width: 40px; height: 40px; border-radius: 50%; margin: 0 auto 6px; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; border: 2px solid transparent; transition: all 0.15s; }
-.flow-circle.active { border-color: #534AB7; box-shadow: 0 0 0 3px #EEEDFE; }
-.flow-arrow { flex: 1; height: 1px; background: var(--color-border-tertiary); min-width: 20px; position: relative; top: -12px; }
-.flow-label { font-size: 11px; color: var(--color-text-secondary); max-width: 90px; margin: 0 auto; line-height: 1.4; }
-.flow-label.active-lbl { color: #3C3489; font-weight: 500; }
-.section-divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 1.5rem 0; }
-.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-top: 8px; }
-.feature-pill { background: var(--color-background-secondary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 10px 12px; font-size: 12px; color: var(--color-text-secondary); display: flex; align-items: flex-start; gap: 8px; }
-.feature-pill i { font-size: 16px; color: #534AB7; flex-shrink: 0; margin-top: 1px; }
-.metric-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 8px; }
-.metric-box { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px; text-align: center; }
-.metric-num { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
-.metric-lbl { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --purple-50: #EEEDFE; --purple-200: #AFA9EC; --purple-400: #7F77DD; --purple-600: #534AB7; --purple-800: #3C3489; --purple-900: #26215C;
+    --teal-50: #E1F5EE; --teal-200: #5DCAA5; --teal-600: #0F6E56; --teal-800: #085041;
+    --coral-50: #FAECE7; --coral-400: #D85A30; --coral-600: #993C1D;
+    --amber-50: #FAEEDA; --amber-400: #BA7517; --amber-600: #854F0B;
+    --gray-50: #F6F5F2; --gray-100: #ECEAE4; --gray-200: #D3D1C7; --gray-400: #888780; --gray-700: #444441; --gray-900: #1A1A18;
+    --text-primary: #1A1A18; --text-secondary: #5F5E5A; --text-muted: #888780;
+    --bg: #F6F5F2; --bg-card: #FFFFFF; --border: #D3D1C7;
+    --radius-sm: 6px; --radius-md: 10px; --radius-lg: 14px; --radius-xl: 20px;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--bg); color: var(--text-primary); font-size: 15px; line-height: 1.65; }
+
+  /* NAV */
+  nav { position: sticky; top: 0; z-index: 100; background: rgba(246,245,242,0.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); padding: 0 2rem; display: flex; align-items: center; gap: 0; height: 52px; }
+  .nav-logo { display: flex; align-items: center; gap: 10px; margin-right: 2rem; text-decoration: none; }
+  .nav-spark { width: 30px; height: 30px; border-radius: 8px; background: var(--purple-600); display: flex; align-items: center; justify-content: center; }
+  .nav-name { font-family: var(--font-display); font-size: 15px; font-weight: 600; color: var(--text-primary); }
+  .nav-links { display: flex; gap: 0; flex: 1; overflow-x: auto; }
+  .nav-link { font-size: 12px; font-weight: 500; color: var(--text-secondary); padding: 0 14px; height: 52px; display: flex; align-items: center; border-bottom: 2px solid transparent; white-space: nowrap; cursor: pointer; text-decoration: none; transition: color 0.15s, border-color 0.15s; }
+  .nav-link:hover, .nav-link.active { color: var(--purple-600); border-bottom-color: var(--purple-600); }
+
+  /* SECTIONS */
+  section { padding: 4rem 2rem; max-width: 960px; margin: 0 auto; }
+  .slide-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: var(--purple-600); text-transform: uppercase; margin-bottom: 10px; }
+  h1 { font-family: var(--font-display); font-size: 40px; font-weight: 700; color: var(--text-primary); line-height: 1.15; margin-bottom: 1rem; }
+  h2 { font-family: var(--font-display); font-size: 26px; font-weight: 600; color: var(--text-primary); margin-bottom: 1rem; }
+  h3 { font-family: var(--font-display); font-size: 17px; font-weight: 600; color: var(--text-primary); margin-bottom: 6px; }
+  .lead { font-size: 16px; color: var(--text-secondary); line-height: 1.7; max-width: 680px; }
+  .divider { border: none; border-top: 1px solid var(--border); margin: 4rem 0; }
+  .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1.25rem 1.5rem; }
+  .card-sm { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1rem 1.25rem; }
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; }
+  .tag { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; }
+  .tag-p { background: var(--purple-50); color: var(--purple-800); }
+  .tag-t { background: var(--teal-50); color: var(--teal-600); }
+  .tag-c { background: var(--coral-50); color: var(--coral-600); }
+  .tag-a { background: var(--amber-50); color: var(--amber-600); }
+  .icon-circle { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .accent-bar { width: 3px; border-radius: 3px; flex-shrink: 0; align-self: stretch; }
+
+  /* HERO */
+  #hero { padding-top: 5rem; padding-bottom: 5rem; }
+  .hero-kicker { display: inline-flex; align-items: center; gap: 8px; background: var(--purple-50); border: 1px solid var(--purple-200); border-radius: 20px; padding: 5px 14px; font-size: 12px; font-weight: 500; color: var(--purple-800); margin-bottom: 1.5rem; }
+  .hero-metric-row { display: flex; gap: 2rem; margin-top: 2.5rem; flex-wrap: wrap; }
+  .hero-metric { border-left: 3px solid var(--purple-400); padding-left: 1rem; }
+  .hero-metric-num { font-family: var(--font-display); font-size: 28px; font-weight: 700; color: var(--text-primary); line-height: 1; }
+  .hero-metric-lbl { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+
+  /* PROBLEM */
+  .mindset-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 1.5rem; }
+  .mindset-row { display: flex; gap: 12px; align-items: flex-start; padding: 1rem; border-radius: var(--radius-md); }
+  .mindset-old { background: var(--coral-50); border: 1px solid #F5C4B3; }
+  .mindset-new { background: var(--teal-50); border: 1px solid #9FE1CB; }
+  .mindset-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+  .mindset-old .mindset-label { color: var(--coral-600); }
+  .mindset-new .mindset-label { color: var(--teal-600); }
+  .mindset-text { font-size: 13px; line-height: 1.5; color: var(--text-primary); }
+  @media (max-width: 600px) { .mindset-grid { grid-template-columns: 1fr; } }
+
+  /* PERSONA STRIP */
+  .persona-strip { display: flex; gap: 14px; margin-top: 1.5rem; flex-wrap: wrap; }
+  .persona-card { flex: 1; min-width: 200px; padding: 1rem 1.25rem; border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--bg-card); display: flex; flex-direction: column; gap: 8px; }
+  .persona-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 13px; font-weight: 600; }
+  .persona-name { font-size: 14px; font-weight: 600; }
+  .persona-role { font-size: 11px; color: var(--text-muted); }
+  .persona-quote { font-size: 12px; color: var(--text-secondary); font-style: italic; line-height: 1.55; border-left: 2px solid var(--border); padding-left: 10px; }
+  .persona-blocker { font-size: 11px; font-weight: 500; margin-top: 4px; }
+
+  /* SOLUTION */
+  .spark-logo-lg { width: 56px; height: 56px; border-radius: 14px; background: var(--purple-600); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+  .not-another-tool { background: var(--gray-900); color: #fff; border-radius: var(--radius-xl); padding: 2rem 2.5rem; margin-top: 2rem; }
+  .not-another-tool h3 { color: #fff; font-size: 18px; margin-bottom: 1rem; }
+  .not-another-tool p { color: #B4B2A9; font-size: 14px; line-height: 1.7; }
+  .principle-list { margin-top: 1.25rem; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .principle-item { display: flex; gap: 10px; align-items: flex-start; }
+  .principle-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--purple-400); flex-shrink: 0; margin-top: 5px; }
+  .principle-text { font-size: 13px; color: #D3D1C7; line-height: 1.5; }
+  @media (max-width: 600px) { .principle-list { grid-template-columns: 1fr; } .not-another-tool { padding: 1.5rem; } }
+
+  /* USER JOURNEY */
+  .journey-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .jtab { border: 1px solid var(--border); background: var(--bg-card); border-radius: var(--radius-md); padding: 8px 14px; font-size: 12px; font-weight: 500; cursor: pointer; color: var(--text-secondary); display: flex; align-items: center; gap: 6px; transition: all 0.15s; }
+  .jtab.active { border-color: var(--purple-600); background: var(--purple-50); color: var(--purple-800); }
+  .jtab:hover:not(.active) { background: var(--gray-50); color: var(--text-primary); }
+  .jtab-num { width: 18px; height: 18px; border-radius: 50%; font-size: 10px; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+  .jtab.active .jtab-num { background: var(--purple-600); color: #fff; }
+  .jtab:not(.active) .jtab-num { background: var(--gray-100); color: var(--text-muted); }
+  .journey-panel { display: none; }
+  .journey-panel.active { display: block; }
+  .journey-row { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
+  .jrow-icon { width: 36px; height: 36px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .jrow-content { flex: 1; }
+  .jrow-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-muted); margin-bottom: 3px; }
+  .jrow-text { font-size: 13px; color: var(--text-primary); line-height: 1.6; }
+  .feature-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .feature-chip { display: flex; align-items: center; gap: 6px; background: var(--gray-50); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 10px; font-size: 12px; color: var(--text-secondary); }
+  .feature-chip i { font-size: 14px; color: var(--purple-600); }
+
+  /* CHALLENGES / HABIT */
+  .fn-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .fntab { border: 1px solid var(--border); background: var(--bg-card); border-radius: var(--radius-md); padding: 7px 14px; font-size: 12px; font-weight: 500; cursor: pointer; color: var(--text-secondary); transition: all 0.15s; }
+  .fntab.active { border-color: var(--teal-600); background: var(--teal-50); color: var(--teal-600); }
+  .fntab:hover:not(.active) { background: var(--gray-50); }
+  .fn-panel { display: none; }
+  .fn-panel.active { display: block; }
+  .challenge-track { position: relative; padding-left: 28px; }
+  .challenge-track::before { content: ''; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+  .challenge-item { position: relative; margin-bottom: 14px; }
+  .challenge-dot { position: absolute; left: -22px; top: 4px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--bg-card); }
+  .challenge-wk { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 2px; }
+  .challenge-name { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+  .challenge-desc { font-size: 12px; color: var(--text-secondary); }
+  .habit-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--teal-50); border: 1px solid var(--teal-200); border-radius: var(--radius-md); padding: 10px 16px; font-size: 13px; font-weight: 500; color: var(--teal-600); margin-top: 1rem; }
+
+  /* TIMELINE */
+  .timeline-wrap { position: relative; margin-top: 1.5rem; }
+  .timeline-bar { height: 6px; background: var(--gray-100); border-radius: 3px; margin-bottom: 2rem; position: relative; }
+  .timeline-phases { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  .tphase { border-radius: var(--radius-lg); padding: 1.25rem; border: 1px solid var(--border); }
+  .tphase-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .tphase-num { width: 28px; height: 28px; border-radius: 50%; font-family: var(--font-display); font-size: 13px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .tphase-title { font-size: 14px; font-weight: 600; }
+  .tphase-duration { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; }
+  .tphase-items { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .tphase-items li { font-size: 12px; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 6px; line-height: 1.5; }
+  .tphase-items li::before { content: '—'; color: var(--gray-200); flex-shrink: 0; }
+  @media (max-width: 640px) { .timeline-phases { grid-template-columns: 1fr; } }
+
+  /* MANAGEMENT DASHBOARD */
+  .mgmt-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .mtab { border: 1px solid var(--border); background: var(--bg-card); border-radius: var(--radius-md); padding: 7px 14px; font-size: 12px; font-weight: 500; cursor: pointer; color: var(--text-secondary); transition: all 0.15s; }
+  .mtab.active { border-color: var(--amber-400); background: var(--amber-50); color: var(--amber-600); }
+  .mtab:hover:not(.active) { background: var(--gray-50); }
+  .mgmt-panel { display: none; }
+  .mgmt-panel.active { display: block; }
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
+  .stat-box { background: var(--gray-50); border-radius: var(--radius-md); padding: 14px; }
+  .stat-num { font-family: var(--font-display); font-size: 24px; font-weight: 700; color: var(--text-primary); line-height: 1; }
+  .stat-lbl { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
+  .stat-trend { font-size: 11px; margin-top: 6px; }
+  .progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .progress-label { font-size: 12px; color: var(--text-secondary); width: 130px; flex-shrink: 0; }
+  .progress-bar-wrap { flex: 1; height: 8px; background: var(--gray-100); border-radius: 4px; overflow: hidden; }
+  .progress-bar-fill { height: 100%; border-radius: 4px; }
+  .progress-pct { font-size: 12px; font-weight: 500; color: var(--text-primary); width: 36px; text-align: right; flex-shrink: 0; }
+
+  /* ARCHITECTURE */
+  .arch-wrap { background: var(--gray-900); border-radius: var(--radius-xl); padding: 2rem; margin-top: 1.5rem; overflow-x: auto; }
+  .arch-layer { margin-bottom: 1.25rem; }
+  .arch-layer-label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #888780; margin-bottom: 8px; }
+  .arch-nodes { display: flex; gap: 8px; flex-wrap: wrap; }
+  .arch-node { border-radius: var(--radius-md); padding: 8px 14px; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+  .arch-node i { font-size: 14px; }
+  .arch-node-spark { background: var(--purple-600); color: #fff; border: 2px solid var(--purple-400); }
+  .arch-node-existing { background: #2C2C2A; color: #B4B2A9; border: 1px solid #444441; }
+  .arch-node-new { background: #1A2E24; color: #5DCAA5; border: 1px solid #085041; }
+  .arch-connector { text-align: center; color: #444441; font-size: 20px; margin-bottom: -4px; }
+  .arch-legend { display: flex; gap: 1.5rem; margin-top: 1.25rem; flex-wrap: wrap; }
+  .arch-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #888780; }
+  .arch-legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+  .roadmap-phases { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-top: 1.5rem; }
+  .roadmap-card { border-radius: var(--radius-lg); padding: 1.25rem; border: 1px solid var(--border); background: var(--bg-card); }
+  .roadmap-phase-tag { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .roadmap-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  .roadmap-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 10px; }
+  .roadmap-items { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+  .roadmap-items li { font-size: 12px; color: var(--text-secondary); display: flex; align-items: flex-start; gap: 6px; }
+  .roadmap-items li i { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+
+  /* FOOTER */
+  footer { background: var(--gray-900); color: #888780; text-align: center; padding: 2rem; font-size: 13px; }
+  footer strong { color: #fff; }
+
+  /* SCROLLSPY active */
+  section { scroll-margin-top: 60px; }
 </style>
+</head>
+<body>
 
-<div class="journey-wrap">
+<nav>
+  <a class="nav-logo" href="#hero">
+    <div class="nav-spark"><i class="ti ti-bolt" style="color:#fff;font-size:16px" aria-hidden="true"></i></div>
+    <span class="nav-name">Nova Spark</span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="#problem">Problem</a>
+    <a class="nav-link" href="#solution">Solution</a>
+    <a class="nav-link" href="#journey">User Journey</a>
+    <a class="nav-link" href="#challenges">Challenges & Habit</a>
+    <a class="nav-link" href="#timeline">Timeline</a>
+    <a class="nav-link" href="#management">Management View</a>
+    <a class="nav-link" href="#architecture">Architecture</a>
+  </div>
+</nav>
 
-<div class="journey-header">
-  <div class="tool-badge">
-    <div class="spark"><i class="ti ti-bolt" style="color:#fff;font-size:16px" aria-hidden="true"></i></div>
-    <div>
-      <div class="tool-name">Nova Spark</div>
-      <div class="tool-tagline">Your weekly AI experiment companion</div>
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-kicker">
+    <i class="ti ti-bolt" style="font-size:14px;color:#534AB7" aria-hidden="true"></i>
+    Nova Insurance Group · AI Transformation Agenda
+  </div>
+  <h1>The tools are there.<br>The people aren't moving.</h1>
+  <p class="lead">Nova Spark is not another AI tool sitting on the intranet. It's the behaviour change engine that makes all the other tools actually get used — by changing the mindset before demanding the habit.</p>
+  <div class="hero-metric-row">
+    <div class="hero-metric">
+      <div class="hero-metric-num">8,000</div>
+      <div class="hero-metric-lbl">employees across 5 countries</div>
+    </div>
+    <div class="hero-metric">
+      <div class="hero-metric-num">6 months</div>
+      <div class="hero-metric-lbl">since launch · minimal change</div>
+    </div>
+    <div class="hero-metric">
+      <div class="hero-metric-num">12 tools</div>
+      <div class="hero-metric-lbl">on the portal · no clear entry point</div>
+    </div>
+    <div class="hero-metric">
+      <div class="hero-metric-num">0 scripts</div>
+      <div class="hero-metric-lbl">for managers handling fear questions</div>
     </div>
   </div>
-  <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.6;">Deployed across all Nova offices (Bangkok, KL, Jakarta, Phnom Penh, Shanghai). Available on web + mobile. Opt-in weekly, no pressure to get it right.</p>
-</div>
+</section>
 
-<div class="stage-flow">
-  <div class="flow-node">
-    <div class="flow-circle active" style="background:#EEEDFE;" onclick="setStage(0)" id="fc0"><i class="ti ti-door-enter" style="color:#534AB7;font-size:18px" aria-hidden="true"></i></div>
-    <div class="flow-label active-lbl" id="fl0">Join &amp; discover</div>
-  </div>
-  <div class="flow-arrow"></div>
-  <div class="flow-node">
-    <div class="flow-circle" style="background:#E1F5EE;" onclick="setStage(1)" id="fc1"><i class="ti ti-target" style="color:#0F6E56;font-size:18px" aria-hidden="true"></i></div>
-    <div class="flow-label" id="fl1">Pick a challenge</div>
-  </div>
-  <div class="flow-arrow"></div>
-  <div class="flow-node">
-    <div class="flow-circle" style="background:#FAEEDA;" onclick="setStage(2)" id="fc2"><i class="ti ti-device-laptop" style="color:#854F0B;font-size:18px" aria-hidden="true"></i></div>
-    <div class="flow-label" id="fl2">Try it this week</div>
-  </div>
-  <div class="flow-arrow"></div>
-  <div class="flow-node">
-    <div class="flow-circle" style="background:#FAECE7;" onclick="setStage(3)" id="fc3"><i class="ti ti-messages" style="color:#993C1D;font-size:18px" aria-hidden="true"></i></div>
-    <div class="flow-label" id="fl3">Share &amp; reflect</div>
-  </div>
-  <div class="flow-arrow"></div>
-  <div class="flow-node">
-    <div class="flow-circle" style="background:#E1F5EE;" onclick="setStage(4)" id="fc4"><i class="ti ti-trophy" style="color:#0F6E56;font-size:18px" aria-hidden="true"></i></div>
-    <div class="flow-label" id="fl4">Build habit</div>
-  </div>
-</div>
+<hr class="divider" style="margin:0">
 
-<div class="stages-nav">
-  <button class="stage-btn active" onclick="setStage(0)" id="sb0"><span class="stage-num">1</span> Join &amp; discover</button>
-  <button class="stage-btn" onclick="setStage(1)" id="sb1"><span class="stage-num">2</span> Pick a challenge</button>
-  <button class="stage-btn" onclick="setStage(2)" id="sb2"><span class="stage-num">3</span> Try it this week</button>
-  <button class="stage-btn" onclick="setStage(3)" id="sb3"><span class="stage-num">4</span> Share &amp; reflect</button>
-  <button class="stage-btn" onclick="setStage(4)" id="sb4"><span class="stage-num">5</span> Build habit</button>
-</div>
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="slide-label">The problem</div>
+  <h2>It's not a technology gap. It's a mindset gap.</h2>
+  <p class="lead">Nova gave people information. What they needed was a first safe action. Across all three archetypes, the same pattern shows up: the cost of trying feels higher than the benefit of starting.</p>
 
-<div id="stage-content"></div>
+  <div class="mindset-grid" style="margin-bottom:2rem;">
+    <div>
+      <div style="font-size:12px;font-weight:600;color:var(--coral-600);margin-bottom:8px;display:flex;align-items:center;gap:6px;"><i class="ti ti-x" aria-hidden="true"></i> Current thinking at Nova</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div class="mindset-row mindset-old"><div><div class="mindset-label">Waiting</div><div class="mindset-text">For certainty, a perfect plan, and the right moment — none of which will arrive</div></div></div>
+        <div class="mindset-row mindset-old"><div><div class="mindset-label">Thinking big</div><div class="mindset-text">Transformation feels like a full workflow redesign, not one small task</div></div></div>
+        <div class="mindset-row mindset-old"><div><div class="mindset-label">Avoiding failure</div><div class="mindset-text">Optimising for not getting it wrong, rather than learning by trying</div></div></div>
+        <div class="mindset-row mindset-old"><div><div class="mindset-label">Working alone</div><div class="mindset-text">Processing uncertainty solo instead of experimenting as a team</div></div></div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:12px;font-weight:600;color:var(--teal-600);margin-bottom:8px;display:flex;align-items:center;gap:6px;"><i class="ti ti-check" aria-hidden="true"></i> Target thinking after Spark</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div class="mindset-row mindset-new"><div><div class="mindset-label">Experimenting</div><div class="mindset-text">What can I test this week? A small trial beats a perfect plan every time</div></div></div>
+        <div class="mindset-row mindset-new"><div><div class="mindset-label">One small win</div><div class="mindset-text">One task, one tool, one result — build from that, not from a grand redesign</div></div></div>
+        <div class="mindset-row mindset-new"><div><div class="mindset-label">Learning from trying</div><div class="mindset-text">A failed experiment has a name: a data point. It still counts as progress</div></div></div>
+        <div class="mindset-row mindset-new"><div><div class="mindset-label">Co-creating</div><div class="mindset-text">The team learns together — sharing results removes the pressure of going first alone</div></div></div>
+      </div>
+    </div>
+  </div>
 
-</div>
+  <h3 style="margin-bottom:1rem;">The three people we're designing for</h3>
+  <div class="persona-strip">
+    <div class="persona-card">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="persona-avatar" style="background:var(--purple-50);color:var(--purple-800);">MA</div>
+        <div><div class="persona-name">Marcus, 41</div><div class="persona-role">Claims Manager · Bangkok</div></div>
+      </div>
+      <div class="persona-quote">"I want to support this. But I need to know where to start. And I need a script for the hard questions my team is asking."</div>
+      <div class="persona-blocker" style="color:var(--coral-600);"><i class="ti ti-alert-circle" style="font-size:13px;vertical-align:-2px;" aria-hidden="true"></i> No safe first action. No script for fear conversations.</div>
+    </div>
+    <div class="persona-card">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="persona-avatar" style="background:var(--teal-50);color:var(--teal-600);">PR</div>
+        <div><div class="persona-name">Priya, 29</div><div class="persona-role">CX Analyst · Kuala Lumpur</div></div>
+      </div>
+      <div class="persona-quote">"I'm not lazy. I just need someone to help me see the entry point. Give me one win. Just one."</div>
+      <div class="persona-blocker" style="color:var(--coral-600);"><i class="ti ti-alert-circle" style="font-size:13px;vertical-align:-2px;" aria-hidden="true"></i> 12 tools, no context, no role-relevant starting point.</div>
+    </div>
+    <div class="persona-card">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="persona-avatar" style="background:var(--amber-50);color:var(--amber-600);">DV</div>
+        <div><div class="persona-name">David, 52</div><div class="persona-role">Finance Lead · Shanghai</div></div>
+      </div>
+      <div class="persona-quote">"I'm not resistant. I'm cautious. If someone came with a risk-aware, simple view of where AI helps — I'd listen."</div>
+      <div class="persona-blocker" style="color:var(--coral-600);"><i class="ti ti-alert-circle" style="font-size:13px;vertical-align:-2px;" aria-hidden="true"></i> Ignored by top-down comms. Risks never addressed.</div>
+    </div>
+  </div>
+
+  <div style="margin-top:1.5rem;padding:1.25rem 1.5rem;background:var(--gray-50);border-radius:var(--radius-lg);border:1px solid var(--border);">
+    <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:8px;">Problem statement</div>
+    <p style="font-size:15px;line-height:1.7;color:var(--text-primary);">Nova's employees know AI is coming but aren't moving — because they're waiting for the perfect plan, the guaranteed outcome, and the right moment. <strong>The real blocker isn't the technology. It's a mindset that treats uncertainty as a reason to pause, instead of a signal to run a small experiment.</strong></p>
+  </div>
+</section>
+
+<hr class="divider" style="margin:0">
+
+<!-- SOLUTION -->
+<section id="solution">
+  <div class="slide-label">The solution</div>
+  <div class="spark-logo-lg"><i class="ti ti-bolt" style="color:#fff;font-size:28px" aria-hidden="true"></i></div>
+  <h2>Nova Spark — your weekly AI experiment companion</h2>
+  <p class="lead">A lightweight, habit-building tool deployed across all five Nova offices. Employees pick one role-specific AI challenge per week, try it, and share what happened. The tool teaches agile thinking by making you live it — not by explaining it.</p>
+
+  <div class="not-another-tool">
+    <h3><i class="ti ti-alert-triangle" style="color:#EF9F27;font-size:18px;vertical-align:-3px;margin-right:8px" aria-hidden="true"></i>Why this isn't just another tool on the portal</h3>
+    <p>The training portal failed because it gave people knowledge without action. The AI tools failed because nobody connected them to a specific task on a specific Tuesday. Spark's job is to be the bridge — not a destination in itself, but the on-ramp to everything Nova has already built.</p>
+    <div class="principle-list">
+      <div class="principle-item"><div class="principle-dot"></div><div class="principle-text">Every session ends with something the employee actually did — not watched or read</div></div>
+      <div class="principle-item"><div class="principle-dot"></div><div class="principle-text">Challenges are role-specific and time-boxed — no abstract "explore AI" prompts</div></div>
+      <div class="principle-item"><div class="principle-dot"></div><div class="principle-text">Failure is designed in — the "that didn't work" path is as clear as the success path</div></div>
+      <div class="principle-item"><div class="principle-dot"></div><div class="principle-text">Spark retires once the habit is formed — it's not a permanent product, it's a scaffold</div></div>
+      <div class="principle-item"><div class="principle-dot"></div><div class="principle-text">It links out to Nova's existing tools — it never duplicates them</div></div>
+      <div class="principle-item"><div class="principle-dot"></div><div class="principle-text">Management visibility is built in — progress visible without surveillance</div></div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" style="margin:0">
+
+<!-- USER JOURNEY -->
+<section id="journey">
+  <div class="slide-label">User journey</div>
+  <h2>How an employee experiences Spark</h2>
+  <p class="lead" style="margin-bottom:1.5rem;">Five stages. Each one solves a specific moment of hesitation. Click each stage to explore the design decisions behind it.</p>
+
+  <div class="journey-tabs">
+    <button class="jtab active" onclick="setJTab(0)" id="jt0"><span class="jtab-num">1</span> Join & discover</button>
+    <button class="jtab" onclick="setJTab(1)" id="jt1"><span class="jtab-num">2</span> Pick a challenge</button>
+    <button class="jtab" onclick="setJTab(2)" id="jt2"><span class="jtab-num">3</span> Try it this week</button>
+    <button class="jtab" onclick="setJTab(3)" id="jt3"><span class="jtab-num">4</span> Share & reflect</button>
+    <button class="jtab" onclick="setJTab(4)" id="jt4"><span class="jtab-num">5</span> Build habit</button>
+  </div>
+
+  <div id="journey-panels"></div>
+</section>
+
+<hr class="divider" style="margin:0">
+
+<!-- CHALLENGES & HABIT -->
+<section id="challenges">
+  <div class="slide-label">Challenges & habit formation</div>
+  <h2>How many challenges to build a habit?</h2>
+  <p class="lead" style="margin-bottom:1.5rem;">Based on habit formation research (66 days average), Spark targets <strong>10 challenges over 12 weeks</strong> per employee — roughly one per week with buffer. The path is personalised by job function. Select a function to see the challenge track.</p>
+
+  <div class="fn-tabs" id="fn-tabs"></div>
+  <div id="fn-panels"></div>
+</section>
+
+<hr class="divider" style="margin:0">
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="slide-label">Implementation timeline</div>
+  <h2>18-month rollout across Nova</h2>
+  <p class="lead" style="margin-bottom:1.5rem;">Three phases. Each builds on the last. Phase 1 proves the concept with willing adopters before pushing company-wide.</p>
+  <div class="timeline-phases">
+    <div class="tphase" style="border-top:3px solid var(--purple-600);">
+      <div class="tphase-header">
+        <div class="tphase-num" style="background:var(--purple-50);color:var(--purple-800);">1</div>
+        <div class="tphase-title">Seed</div>
+      </div>
+      <div class="tphase-duration"><i class="ti ti-calendar" style="font-size:13px;vertical-align:-2px;" aria-hidden="true"></i> Months 1–3 · ~200 early adopters</div>
+      <ul class="tphase-items">
+        <li>Launch Spark to AI Champions + volunteer teams in Bangkok and KL</li>
+        <li>Build and validate challenge library for Claims, CX, and Finance functions</li>
+        <li>Test manager dashboard with 5 team leads</li>
+        <li>Collect qualitative data: what's working, what's not</li>
+        <li>Identify 10 "first win" stories to socialise in Phase 2</li>
+      </ul>
+    </div>
+    <div class="tphase" style="border-top:3px solid var(--teal-600);">
+      <div class="tphase-header">
+        <div class="tphase-num" style="background:var(--teal-50);color:var(--teal-600);">2</div>
+        <div class="tphase-title">Scale</div>
+      </div>
+      <div class="tphase-duration"><i class="ti ti-calendar" style="font-size:13px;vertical-align:-2px;" aria-hidden="true"></i> Months 4–9 · all 5 offices</div>
+      <ul class="tphase-items">
+        <li>Full rollout across Bangkok, KL, Jakarta, Phnom Penh, Shanghai</li>
+        <li>Expand challenge library to HR, Underwriting, Technology functions</li>
+        <li>Launch team leaderboard and cross-office community feed</li>
+        <li>Integrate Spark login with Nova SSO (no new accounts)</li>
+        <li>First monthly management report issued to department heads</li>
+        <li>CEO town hall features 3 Spark stories from different countries</li>
+      </ul>
+    </div>
+    <div class="tphase" style="border-top:3px solid var(--amber-400);">
+      <div class="tphase-header">
+        <div class="tphase-num" style="background:var(--amber-50);color:var(--amber-600);">3</div>
+        <div class="tphase-title">Embed</div>
+      </div>
+      <div class="tphase-duration"><i class="ti ti-calendar" style="font-size:13px;vertical-align:-2px;" aria-hidden="true"></i> Months 10–18 · retire the scaffold</div>
+      <ul class="tphase-items">
+        <li>Spark habit data feeds into performance review conversations (optional)</li>
+        <li>Deep integration: Spark challenges linked directly to Nova tool portal</li>
+        <li>Agentic AI teams self-nominate based on Spark completion milestones</li>
+        <li>Spark challenge library maintained by AI Champions, not central IT</li>
+        <li>Evaluate sunset: if habit formed, Spark steps back — tools take over</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" style="margin:0">
+
+<!-- MANAGEMENT VIEW -->
+<section id="management">
+  <div class="slide-label">Management visibility</div>
+  <h2>What leadership can see — and when</h2>
+  <p class="lead" style="margin-bottom:1.5rem;">Progress is visible without being surveillance. Managers see team momentum, not individual compliance. Select a view level below.</p>
+
+  <div class="mgmt-tabs">
+    <button class="mtab active" onclick="setMTab(0)" id="mt0">Team manager view</button>
+    <button class="mtab" onclick="setMTab(1)" id="mt1">Department head view</button>
+    <button class="mtab" onclick="setMTab(2)" id="mt2">Executive / CEO view</button>
+  </div>
+  <div id="mgmt-panels"></div>
+</section>
+
+<hr class="divider" style="margin:0">
+
+<!-- ARCHITECTURE -->
+<section id="architecture">
+  <div class="slide-label">Digital architecture & roadmap</div>
+  <h2>Where Spark sits in Nova's digital ecosystem</h2>
+  <p class="lead" style="margin-bottom:1.5rem;">Spark is not a standalone island. It's the behaviour layer that activates tools Nova already owns. Phase by phase, it gets wired deeper into the existing architecture.</p>
+
+  <div class="arch-wrap">
+    <div class="arch-layer">
+      <div class="arch-layer-label">Employee experience layer</div>
+      <div class="arch-nodes">
+        <div class="arch-node arch-node-spark"><i class="ti ti-bolt" aria-hidden="true"></i> Nova Spark (new)</div>
+        <div class="arch-node arch-node-existing"><i class="ti ti-book" aria-hidden="true"></i> Training Portal</div>
+        <div class="arch-node arch-node-existing"><i class="ti ti-tool" aria-hidden="true"></i> AI Tool Library</div>
+        <div class="arch-node arch-node-existing"><i class="ti ti-users" aria-hidden="true"></i> AI Champions Network</div>
+      </div>
+    </div>
+    <div class="arch-connector">↕</div>
+    <div class="arch-layer">
+      <div class="arch-layer-label">Identity & access</div>
+      <div class="arch-nodes">
+        <div class="arch-node arch-node-existing"><i class="ti ti-lock" aria-hidden="true"></i> Nova SSO (Phase 2 integration)</div>
+        <div class="arch-node arch-node-existing"><i class="ti ti-id" aria-hidden="true"></i> HRIS — role & function data</div>
+      </div>
+    </div>
+    <div class="arch-connector">↕</div>
+    <div class="arch-layer">
+      <div class="arch-layer-label">AI & automation tools (existing)</div>
+      <div class="arch-nodes">
+        <div class="arch-node arch-node-existing"><i class="ti ti-pencil" aria-hidden="true"></i> Writing Assistant</div>
+        <div class="arch-node arch-node-existing"><i class="ti ti-file-check" aria-hidden="true"></i> Claims Automation</div>
+        <div class="arch-node arch-node-existing"><i class="ti ti-chart-bar" aria-hidden="true"></i> Data Summarisation</div>
+        <div class="arch-node arch-node-existing"><i class="ti ti-headset" aria-hidden="true"></i> CX AI Co-pilot</div>
+      </div>
+    </div>
+    <div class="arch-connector">↕</div>
+    <div class="arch-layer">
+      <div class="arch-layer-label">Analytics & reporting (new in Phase 2)</div>
+      <div class="arch-nodes">
+        <div class="arch-node arch-node-new"><i class="ti ti-dashboard" aria-hidden="true"></i> Manager Dashboard</div>
+        <div class="arch-node arch-node-new"><i class="ti ti-chart-line" aria-hidden="true"></i> Adoption Analytics</div>
+        <div class="arch-node arch-node-new"><i class="ti ti-certificate" aria-hidden="true"></i> Habit Milestone Tracker</div>
+      </div>
+    </div>
+    <div class="arch-layer" style="margin-top:1.25rem;">
+      <div class="arch-layer-label">Future state — Phase 3</div>
+      <div class="arch-nodes">
+        <div class="arch-node arch-node-new"><i class="ti ti-robot" aria-hidden="true"></i> Agentic AI Team Eligibility</div>
+        <div class="arch-node arch-node-new"><i class="ti ti-refresh" aria-hidden="true"></i> Spark Challenge API (Champions-maintained)</div>
+        <div class="arch-node arch-node-new"><i class="ti ti-trending-up" aria-hidden="true"></i> Performance Integration (optional)</div>
+      </div>
+    </div>
+    <div class="arch-legend">
+      <div class="arch-legend-item"><div class="arch-legend-dot" style="background:var(--purple-600);"></div> Nova Spark (core product)</div>
+      <div class="arch-legend-item"><div class="arch-legend-dot" style="background:#444441;"></div> Existing Nova infrastructure</div>
+      <div class="arch-legend-item"><div class="arch-legend-dot" style="background:#085041;"></div> New components built for Spark</div>
+    </div>
+  </div>
+
+  <div class="roadmap-phases">
+    <div class="roadmap-card">
+      <div class="roadmap-phase-tag" style="color:var(--purple-600);">Phase 1 · Months 1–3</div>
+      <div class="roadmap-title">Standalone Spark</div>
+      <div class="roadmap-desc">Spark runs as a separate web app. Manual role setup. No SSO. Challenges are a curated static library. Manager dashboard is a simple weekly email report.</div>
+      <ul class="roadmap-items">
+        <li><i class="ti ti-check" style="color:var(--teal-600);" aria-hidden="true"></i> Web app (mobile-responsive)</li>
+        <li><i class="ti ti-check" style="color:var(--teal-600);" aria-hidden="true"></i> 30 challenges across 3 functions</li>
+        <li><i class="ti ti-check" style="color:var(--teal-600);" aria-hidden="true"></i> Weekly email digest to managers</li>
+      </ul>
+    </div>
+    <div class="roadmap-card">
+      <div class="roadmap-phase-tag" style="color:var(--teal-600);">Phase 2 · Months 4–9</div>
+      <div class="roadmap-title">Connected Spark</div>
+      <div class="roadmap-desc">SSO integration removes friction. Challenges link directly to Nova's tool portal. Real-time dashboard replaces email. Cross-office feed goes live.</div>
+      <ul class="roadmap-items">
+        <li><i class="ti ti-check" style="color:var(--teal-600);" aria-hidden="true"></i> SSO login via Nova identity</li>
+        <li><i class="ti ti-check" style="color:var(--teal-600);" aria-hidden="true"></i> 70+ challenges across 6 functions</li>
+        <li><i class="ti ti-check" style="color:var(--teal-600);" aria-hidden="true"></i> Live manager + dept head dashboard</li>
+        <li><i class="ti ti-check" style="color:var(--teal-600);" aria-hidden="true"></i> Direct links to AI tool portal</li>
+      </ul>
+    </div>
+    <div class="roadmap-card">
+      <div class="roadmap-phase-tag" style="color:var(--amber-600);">Phase 3 · Months 10–18</div>
+      <div class="roadmap-title">Embedded Spark</div>
+      <div class="roadmap-desc">Spark habit data informs agentic AI team selection. Champions maintain the challenge library via API. Spark begins stepping back as tools take over.</div>
+      <ul class="roadmap-items">
+        <li><i class="ti ti-check" style="color:var(--teal-600);" aria-hidden="true"></i> Agentic team eligibility via milestones</li>
+        <li><i class="ti ti-check" style="color:var(--teal-600);" aria-hidden="true"></i> Champion-editable challenge API</li>
+        <li><i class="ti ti-check" style="color:var(--teal-600);" aria-hidden="true"></i> Sunset evaluation at month 18</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <strong>Nova Spark</strong> · Agile Thinking in Digital Transformation · Nova Insurance Group · 2026
+</footer>
 
 <script>
-const stages = [
-  {
-    title: "Stage 1 — Join & discover",
-    objective: "Employee lands on Nova Spark for the first time — triggered by a manager nudge, a team announcement, or a company-wide push notification.",
+const journeyStages = [
+  { title: "Stage 1 — Join & discover", tag: "tag-p", tagText: "Onboarding",
+    objective: "Employee lands on Nova Spark for the first time — triggered by a manager nudge, a team announcement, or a company push notification.",
     needs: "Understand what this is, why it exists, and that it won't waste their time or judge them for being a beginner.",
     feeling: "Cautious but curious. Slightly suspicious of another initiative.",
     barrier: "\"Is this another mandatory thing that goes nowhere?\" Low trust from past initiative fatigue.",
     features: [
-      { icon: "ti-user-circle", text: "30-second role setup — pick your function (Claims, Finance, Customer Service, etc.)" },
-      { icon: "ti-mood-smile", text: "Comfort level check-in — 3 options: 'AI newbie', 'Heard of it', 'Already using it'" },
-      { icon: "ti-eye", text: "Show 3 recent wins from colleagues in your role — real names, real tasks" },
-      { icon: "ti-lock-open", text: "No login required for first 10 minutes — explore before committing" }
-    ],
-    tags: ["Onboarding", "Role personalisation", "Social proof"],
-    tagType: ["purple", "teal", "amber"]
+      {i:"ti-user-circle",t:"30-second role setup — pick your function to personalise your experience immediately"},
+      {i:"ti-mood-smile",t:"Comfort check-in — 'AI newbie', 'Heard of it', 'Already using it' sets your starting challenge level"},
+      {i:"ti-eye",t:"Show 3 real wins from colleagues in your role — names, tasks, time saved"},
+      {i:"ti-lock-open",t:"Explore for 10 minutes before committing — no account required to browse"}
+    ]
   },
-  {
-    title: "Stage 2 — Pick a challenge",
-    objective: "Employee selects one specific AI experiment to try this week, matched to their actual role and comfort level.",
-    needs: "A concrete, role-relevant starting point. Not 12 tools with no context — one clear thing to do on Tuesday.",
+  { title: "Stage 2 — Pick a challenge", tag: "tag-t", tagText: "Role-filtered",
+    objective: "Employee selects one specific AI experiment to run this week, matched to their actual role and current comfort level.",
+    needs: "A concrete, role-relevant starting point. Not 12 tools — one clear thing to do on Tuesday afternoon.",
     feeling: "Relieved to have a clear next step. Slightly nervous about getting it wrong.",
-    barrier: "Choice paralysis. Too many options = inaction. Generic examples = disconnect.",
+    barrier: "Choice paralysis. Too many options means no action. Generic examples create disconnect.",
     features: [
-      { icon: "ti-filter", text: "Role-filtered challenges — Marcus sees Claims tasks, Priya sees CX tasks" },
-      { icon: "ti-clock", text: "Time estimate on every card — '15 min', '30 min', 'Under 5 min'" },
-      { icon: "ti-chart-bar", text: "Difficulty badge — Curious / Ready / Bold so people self-select" },
-      { icon: "ti-users", text: "\"X teammates tried this\" counter — nudges via social norms" },
-      { icon: "ti-bookmark", text: "Save for later — no pressure to commit immediately" }
-    ],
-    tags: ["Role filtering", "Time-boxed", "Self-paced"],
-    tagType: ["teal", "purple", "amber"]
+      {i:"ti-filter",t:"Role-filtered challenge cards — Marcus sees Claims tasks, Priya sees CX tasks, David sees Finance tasks"},
+      {i:"ti-clock",t:"Time estimate on every card — '15 min', '30 min', 'Under 5 min'"},
+      {i:"ti-chart-bar",t:"Difficulty tier — Curious / Ready / Bold so people self-select comfort level"},
+      {i:"ti-users",t:"'X teammates tried this' counter — social proof nudges the hesitant"},
+      {i:"ti-bookmark",t:"Save for later — no pressure to commit to a challenge immediately"}
+    ]
   },
-  {
-    title: "Stage 3 — Try it this week",
-    objective: "Employee does the experiment. The app guides them through a real AI task with their real work, step by step.",
-    needs: "Clear instructions that connect the AI tool to a task they already do. Permission to produce an imperfect result.",
-    feeling: "Focused. Possibly frustrated mid-task, but helped through it.",
-    barrier: "\"I tried it and it gave a bad answer — this doesn't work.\" Misread failure as tool failure, not prompting gap.",
+  { title: "Stage 3 — Try it this week", tag: "tag-a", tagText: "Guided action",
+    objective: "Employee runs the experiment. Spark walks them through a real AI task using their actual work content, step by step.",
+    needs: "Clear instructions connecting the AI tool to a task they already do. Permission to produce an imperfect result.",
+    feeling: "Focused. Possibly frustrated mid-task — but Spark helps them through it rather than leaving them stuck.",
+    barrier: "\"It gave a bad answer — this doesn't work.\" Misreading one failure as proof the tool is useless.",
     features: [
-      { icon: "ti-list-check", text: "Step-by-step guided task — not a video, an interactive walkthrough" },
-      { icon: "ti-bulb", text: "Prompt starter included — paste your actual content, try this prompt" },
-      { icon: "ti-refresh", text: "'That didn't work' button — gives a tip to retry, normalises imperfection" },
-      { icon: "ti-help-circle", text: "In-app AI Champion contact — ping your team's champion without leaving Spark" },
-      { icon: "ti-clock-pause", text: "Pause and resume — save progress, continue tomorrow" }
-    ],
-    tags: ["Guided task", "Fail-safe design", "Champion support"],
-    tagType: ["purple", "coral", "teal"]
+      {i:"ti-list-check",t:"Step-by-step guided walkthrough — interactive, not a passive video"},
+      {i:"ti-bulb",t:"Prompt starter included — paste your real content and try this exact prompt"},
+      {i:"ti-refresh",t:"'That didn't work' button — normalises failure, gives a specific retry tip"},
+      {i:"ti-help-circle",t:"In-app AI Champion contact — ping your team's champion without leaving Spark"},
+      {i:"ti-clock-pause",t:"Pause and resume — save progress, come back tomorrow"}
+    ]
   },
-  {
-    title: "Stage 4 — Share & reflect",
-    objective: "Employee logs what happened — what worked, what didn't — and optionally shares with their team or the broader Nova community.",
-    needs: "A quick, low-effort way to reflect. Recognition that doesn't feel hollow. Safe to say 'it didn't work'.",
+  { title: "Stage 4 — Share & reflect", tag: "tag-c", tagText: "Psychological safety",
+    objective: "Employee logs what happened — what worked, what didn't — and optionally shares with their team or the Nova community.",
+    needs: "A quick, low-effort reflection. Recognition that doesn't feel hollow. Safe to say 'it didn't work'.",
     feeling: "Proud if it worked. Curious if it didn't. Either way, ready to say something.",
-    barrier: "Sharing culture is low. People don't want to look incompetent or be judged for an unimpressive result.",
+    barrier: "Sharing culture is low. People don't want to look incompetent in front of colleagues or management.",
     features: [
-      { icon: "ti-pencil", text: "3-question micro-reflection — 'What I tried', 'What happened', 'Would I use it again?'" },
-      { icon: "ti-thumb-up", text: "Post to team feed or keep private — employee controls visibility" },
-      { icon: "ti-star", text: "Spark points earned — redeemable for small perks (coffee, half-day, team lunch)" },
-      { icon: "ti-chart-line", text: "Manager dashboard update — team completion visible without naming who didn't" },
-      { icon: "ti-award", text: "Badge for 'First experiment done' — low bar, high meaning for hesitant adopters" }
-    ],
-    tags: ["Psychological safety", "Recognition", "Team visibility"],
-    tagType: ["teal", "amber", "purple"]
+      {i:"ti-pencil",t:"3-question micro-reflection — 'What I tried', 'What happened', 'Would I use it again?'"},
+      {i:"ti-thumb-up",t:"Post to team feed or keep private — employee controls visibility, always"},
+      {i:"ti-star",t:"Spark points earned — redeemable for small perks (coffee, team lunch, half-day)"},
+      {i:"ti-award",t:"'First experiment done' badge — lowest bar, highest meaning for hesitant first-timers"},
+      {i:"ti-chart-line",t:"Manager dashboard update — team completion shown without naming who hasn't started"}
+    ]
   },
-  {
-    title: "Stage 5 — Build habit",
-    objective: "Employee returns next week. The habit loop forms: new challenge, try, share. Mindset shifts from 'what's the plan' to 'what can I test'.",
-    needs: "A reason to come back that isn't obligation. Progress that feels real. Team momentum.",
-    feeling: "A little competitive (in a good way). Growing confidence. Starting to see AI as a tool not a threat.",
-    barrier: "Without a pull, people drift. The tool can't just reward completion — it has to create genuine curiosity.",
+  { title: "Stage 5 — Build the habit", tag: "tag-t", tagText: "Habit loop",
+    objective: "Employee returns next week. The habit loop forms: new challenge, try, share. Mindset shifts from 'what's the plan?' to 'what can I test?'",
+    needs: "A reason to return that isn't obligation. Progress that feels real. Team momentum they can see.",
+    feeling: "A little competitive in a good way. Growing confidence. Starting to see AI as a tool, not a threat.",
+    barrier: "Without a pull, people drift. The tool has to create genuine curiosity, not just reward completion.",
     features: [
-      { icon: "ti-bell", text: "Weekly nudge — personalised, not generic. 'Priya, your team tried 4 experiments this week'" },
-      { icon: "ti-trending-up", text: "Personal AI map — visual log of every experiment, built over time" },
-      { icon: "ti-users-group", text: "Team leaderboard (opt-in) — tracks experiments, not hours or scores" },
-      { icon: "ti-building", text: "Cross-office feed — see what Bangkok or Jakarta teams are trying" },
-      { icon: "ti-certificate", text: "Monthly 'Sparker' recognition — manager nominates, CEO mentions in town hall" }
-    ],
-    tags: ["Habit loop", "Community", "Org-wide visibility"],
-    tagType: ["purple", "teal", "amber"]
+      {i:"ti-bell",t:"Personalised weekly nudge — 'Priya, your team ran 4 experiments this week. Your turn?'"},
+      {i:"ti-trending-up",t:"Personal AI map — a visual log of every experiment completed, built over time"},
+      {i:"ti-users-group",t:"Team leaderboard (opt-in) — tracks experiments run, not hours spent or scores"},
+      {i:"ti-building",t:"Cross-office feed — see what Bangkok or Jakarta teams are trying right now"},
+      {i:"ti-certificate",t:"Monthly 'Sparker' recognition — manager nominates, CEO mentions in town hall"}
+    ]
   }
 ];
 
-const tagColors = { purple: "tag-purple", teal: "tag-teal", coral: "tag-coral", amber: "tag-amber" };
-
-function setStage(i) {
-  for (let j = 0; j < 5; j++) {
-    document.getElementById('sb'+j).className = 'stage-btn' + (j===i ? ' active' : '');
-    const fc = document.getElementById('fc'+j);
-    const fl = document.getElementById('fl'+j);
-    fc.className = 'flow-circle' + (j===i ? ' active' : '');
-    fl.className = 'flow-label' + (j===i ? ' active-lbl' : '');
+function setJTab(i) {
+  for (let j=0;j<5;j++) {
+    const b = document.getElementById('jt'+j);
+    b.className = 'jtab' + (j===i?' active':'');
   }
-  const s = stages[i];
-  document.getElementById('stage-content').innerHTML = `
-    <div class="journey-grid">
-      <div>
-        <div class="row-label"><i class="ti ti-target" aria-hidden="true"></i> Objective</div>
-        <div class="row-card highlight">
-          <div class="card-title">${s.title}</div>
-          <div class="card-body">${s.objective}</div>
-          <div class="tag-list">${s.tags.map((t,k)=>`<span class="tag ${tagColors[s.tagType[k]]}">${t}</span>`).join('')}</div>
+  const s = journeyStages[i];
+  const colors = [{bg:'#EEEDFE',ic:'#534AB7'},{bg:'#E1F5EE',ic:'#0F6E56'},{bg:'#FAEEDA',ic:'#854F0B'},{bg:'#FAECE7',ic:'#993C1D'},{bg:'#E1F5EE',ic:'#0F6E56'}];
+  const c = colors[i];
+  document.getElementById('journey-panels').innerHTML = `
+    <div class="card" style="border-top:3px solid ${c.ic};">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;">
+        <div class="icon-circle" style="background:${c.bg};"><i class="ti ti-bolt" style="color:${c.ic};font-size:18px" aria-hidden="true"></i></div>
+        <div><h3 style="margin:0;">${s.title}</h3><span class="tag ${s.tag}">${s.tagText}</span></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:1.25rem;">
+        <div>
+          <div class="jrow-label">Objective</div>
+          <div class="jrow-text">${s.objective}</div>
+        </div>
+        <div>
+          <div class="jrow-label">Employee need</div>
+          <div class="jrow-text">${s.needs}</div>
+        </div>
+        <div>
+          <div class="jrow-label">Feeling at this stage</div>
+          <div class="jrow-text" style="color:var(--teal-600);">${s.feeling}</div>
+        </div>
+        <div>
+          <div class="jrow-label">Barrier to overcome</div>
+          <div class="jrow-text" style="color:var(--coral-600);">${s.barrier}</div>
         </div>
       </div>
-      <div>
-        <div class="row-label"><i class="ti ti-heart" aria-hidden="true"></i> Employee need</div>
-        <div class="row-card">
-          <div class="card-body">${s.needs}</div>
-        </div>
+      <div class="jrow-label" style="margin-bottom:8px;">Spark features at this stage</div>
+      <div class="feature-chips">
+        ${s.features.map(f=>`<div class="feature-chip"><i class="ti ${f.i}" aria-hidden="true"></i><span>${f.t}</span></div>`).join('')}
       </div>
-      <div>
-        <div class="row-label"><i class="ti ti-mood-smile" aria-hidden="true"></i> Feeling at this stage</div>
-        <div class="row-card feelings-card">
-          <div class="card-body">${s.feeling}</div>
-        </div>
-      </div>
-      <div>
-        <div class="row-label"><i class="ti ti-alert-triangle" aria-hidden="true"></i> Barrier to overcome</div>
-        <div class="row-card barrier-card">
-          <div class="card-body">${s.barrier}</div>
-        </div>
-      </div>
-      <div>
-        <div class="row-label"><i class="ti ti-device-mobile" aria-hidden="true"></i> Spark features at this stage</div>
-        <div class="row-card feature-card">
-          <div class="features-grid">
-            ${s.features.map(f=>`<div class="feature-pill"><i class="ti ${f.icon}" aria-hidden="true"></i><span>${f.text}</span></div>`).join('')}
+    </div>`;
+}
+
+const fnData = {
+  "Claims": {
+    color: "var(--purple-600)", bg: "var(--purple-50)", weeks: 12, total: 10,
+    tracks: [
+      {wk:"Week 1–2",phase:"Curious",col:"#AFA9EC",name:"AI-assisted claim summary",desc:"Paste a complex claim note into the writing assistant. Compare its summary to yours. Time saved?"},
+      {wk:"Week 3–4",phase:"Curious",col:"#AFA9EC",name:"Auto-draft first response",desc:"Use the claims co-pilot to draft a claimant response email. Edit it. How close was it?"},
+      {wk:"Week 5–6",phase:"Ready",col:"#7F77DD",name:"Flag incomplete submissions",desc:"Run a batch of 10 claims through the data tool to flag missing fields. Review accuracy."},
+      {wk:"Week 7–8",phase:"Ready",col:"#7F77DD",name:"Pattern-spotting in backlogs",desc:"Ask the summarisation tool to identify the top 3 reasons for delays in your last 30 claims."},
+      {wk:"Week 9–10",phase:"Bold",col:"#534AB7",name:"Team experiment — live review",desc:"Run one claims review meeting using AI-generated summaries instead of manual prep. Debrief."},
+      {wk:"Week 11–12",phase:"Bold",col:"#534AB7",name:"Propose one workflow change",desc:"Based on your 10 experiments: pitch one permanent AI integration to your manager with evidence."},
+    ]
+  },
+  "Customer Experience": {
+    color: "var(--teal-600)", bg: "var(--teal-50)", weeks: 12, total: 10,
+    tracks: [
+      {wk:"Week 1–2",phase:"Curious",col:"#5DCAA5",name:"Complaint tone analysis",desc:"Paste 5 complaint emails into the AI tool. Ask it to categorise by sentiment and urgency. Does it match your read?"},
+      {wk:"Week 3–4",phase:"Curious",col:"#5DCAA5",name:"Draft response templates",desc:"Use the writing assistant to draft 3 standard response templates for your top complaint types."},
+      {wk:"Week 5–6",phase:"Ready",col:"#1D9E75",name:"Summarise weekly feedback",desc:"Ask the summarisation tool to find the top 5 themes from last week's customer feedback log."},
+      {wk:"Week 7–8",phase:"Ready",col:"#1D9E75",name:"CX co-pilot trial",desc:"Use the customer service AI co-pilot on 10 live queries. Track where it helped vs. where you overrode it."},
+      {wk:"Week 9–10",phase:"Bold",col:"#0F6E56",name:"Team feedback review session",desc:"Run your monthly feedback review using AI-generated summaries. Compare quality to manual prep."},
+      {wk:"Week 11–12",phase:"Bold",col:"#0F6E56",name:"Propose co-pilot expansion",desc:"Based on trial data: recommend which query types the co-pilot should handle fully vs. assist only."},
+    ]
+  },
+  "Finance": {
+    color: "var(--amber-600)", bg: "var(--amber-50)", weeks: 14, total: 10,
+    tracks: [
+      {wk:"Week 1–2",phase:"Curious",col:"#EF9F27",name:"Summarise a report",desc:"Run last month's finance report through the summarisation tool. Is the output accurate? What did it miss?"},
+      {wk:"Week 3–4",phase:"Curious",col:"#EF9F27",name:"Draft a data commentary",desc:"Use the writing assistant to generate a first draft commentary on one set of financial figures."},
+      {wk:"Week 5–7",phase:"Ready",col:"#BA7517",name:"Identify anomalies in data",desc:"Ask the data tool to flag outliers in a financial dataset. Cross-check against your own review."},
+      {wk:"Week 8–10",phase:"Ready",col:"#BA7517",name:"Compliance checklist assist",desc:"Use AI to check a process document against a compliance checklist. Note gaps and false positives."},
+      {wk:"Week 11–12",phase:"Bold",col:"#854F0B",name:"Team workflow audit",desc:"Map one team workflow using AI assistance. Identify 2 tasks where AI helps and 1 where it creates risk."},
+      {wk:"Week 13–14",phase:"Bold",col:"#854F0B",name:"Risk-aware proposal",desc:"Write a one-page proposal for one AI integration — including the compliance and error-risk section."},
+    ]
+  },
+  "HR": {
+    color: "var(--coral-600)", bg: "var(--coral-50)", weeks: 12, total: 10,
+    tracks: [
+      {wk:"Week 1–2",phase:"Curious",col:"#F0997B",name:"Draft a job description",desc:"Use the writing assistant to draft one JD from a brief. How much editing did it need?"},
+      {wk:"Week 3–4",phase:"Curious",col:"#F0997B",name:"Summarise exit interview themes",desc:"Run last quarter's exit interview notes through the summarisation tool. What themes does it surface?"},
+      {wk:"Week 5–6",phase:"Ready",col:"#D85A30",name:"Policy Q&A bot test",desc:"Test the writing assistant as a policy FAQ responder. Ask it 5 common employee HR questions."},
+      {wk:"Week 7–8",phase:"Ready",col:"#D85A30",name:"Onboarding material review",desc:"Ask AI to review your onboarding guide for clarity and gaps. Compare to new-hire feedback."},
+      {wk:"Week 9–10",phase:"Bold",col:"#993C1D",name:"Engagement survey analysis",desc:"Feed engagement survey data to the summarisation tool. Does it surface the same priorities as your read?"},
+      {wk:"Week 11–12",phase:"Bold",col:"#993C1D",name:"Build one AI-assisted process",desc:"Redesign one HR process (e.g. leave approval comms) with AI assistance built in. Test with one team."},
+    ]
+  }
+};
+
+function setFnTab(fn) {
+  document.querySelectorAll('.fntab').forEach(b => b.classList.remove('active'));
+  document.getElementById('fnt-'+fn.replace(/\s/g,'_')).classList.add('active');
+  const d = fnData[fn];
+  const panels = document.getElementById('fn-panels');
+  panels.innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 2fr;gap:1.5rem;align-items:start;" class="fn-layout">
+      <div class="card-sm">
+        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:1rem;">Function overview</div>
+        <div class="stat-box" style="margin-bottom:10px;"><div class="stat-num">${d.total}</div><div class="stat-lbl">challenges to habit</div></div>
+        <div class="stat-box" style="margin-bottom:10px;"><div class="stat-num">${d.weeks} wks</div><div class="stat-lbl">recommended timeline</div></div>
+        <div class="habit-badge"><i class="ti ti-trophy" style="font-size:16px;" aria-hidden="true"></i> Habit formed at week ${d.weeks}</div>
+        <div style="margin-top:1rem;">
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-muted);margin-bottom:8px;">Difficulty levels</div>
+          <div style="display:flex;flex-direction:column;gap:6px;">
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px;"><div style="width:10px;height:10px;border-radius:50%;background:#AFA9EC;flex-shrink:0;"></div><span>Curious — low stakes, high guidance</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px;"><div style="width:10px;height:10px;border-radius:50%;background:#534AB7;flex-shrink:0;"></div><span>Ready — moderate autonomy</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px;"><div style="width:10px;height:10px;border-radius:50%;background:#26215C;flex-shrink:0;"></div><span>Bold — team impact, proposes change</span></div>
           </div>
         </div>
       </div>
+      <div>
+        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:1rem;">Challenge track — ${fn}</div>
+        <div class="challenge-track">
+          ${d.tracks.map(t=>`
+            <div class="challenge-item">
+              <div class="challenge-dot" style="background:${t.col};"></div>
+              <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:10px 14px;">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                  <div class="challenge-wk">${t.wk}</div>
+                  <div style="font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;background:${t.col}22;color:${t.col};">${t.phase}</div>
+                </div>
+                <div class="challenge-name">${t.name}</div>
+                <div class="challenge-desc">${t.desc}</div>
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>
     </div>
+    <style>.fn-layout{grid-template-columns:1fr 2fr;}@media(max-width:600px){.fn-layout{grid-template-columns:1fr;}}</style>
   `;
 }
 
-setStage(0);
+const mgmtData = [
+  {
+    title: "Team manager view (Marcus level)",
+    desc: "Visible weekly. Focus: team momentum and who needs a nudge — not individual compliance tracking.",
+    stats: [{n:"11/14",l:"team members started",t:"+3 this week",tc:"color:var(--teal-600)"},{n:"38",l:"experiments run",t:"avg 2.7 per person",tc:"color:var(--text-muted)"},{n:"6",l:"functions tried",t:"across the team",tc:"color:var(--text-muted)"},{n:"3",l:"ready to go Bold",t:"challenge tier",tc:"color:var(--purple-600)"}],
+    progress: [
+      {l:"Claims processing",pct:78,col:"#534AB7"},{l:"Response drafting",pct:64,col:"#534AB7"},{l:"Report summarising",pct:45,col:"#7F77DD"},{l:"Pattern analysis",pct:22,col:"#AFA9EC"}
+    ],
+    note: "Individual names are not shown in team completion tracking. Managers see group-level momentum only. To check in with someone, use the 1:1 conversation guide inside Spark."
+  },
+  {
+    title: "Department head view (Director level)",
+    desc: "Visible monthly. Cross-team comparison and function-level adoption rates across the country office.",
+    stats: [{n:"68%",l:"dept adoption rate",t:"+12% vs last month",tc:"color:var(--teal-600)"},{n:"214",l:"experiments run",t:"across 6 teams",tc:"color:var(--text-muted)"},{n:"4/6",l:"teams at habit stage",t:"≥8 challenges done",tc:"color:var(--teal-600)"},{n:"2",l:"teams need support",t:"<3 experiments",tc:"color:var(--coral-600)"}],
+    progress: [
+      {l:"Claims (Bangkok)",pct:82,col:"#534AB7"},{l:"CX (KL)",pct:74,col:"#1D9E75"},{l:"Finance (Shanghai)",pct:55,col:"#BA7517"},{l:"HR (Jakarta)",pct:48,col:"#D85A30"},{l:"Underwriting (PNH)",pct:31,col:"#888780"}
+    ],
+    note: "Monthly report auto-sent to department heads. Includes: top 3 experiments by impact, teams flagged for support, and one cross-office story to share at the next all-hands."
+  },
+  {
+    title: "Executive / CEO view",
+    desc: "Visible quarterly. Company-wide transformation progress toward the 18-month goal.",
+    stats: [{n:"72%",l:"of 8,000 staff active",t:"target: 85% by M12",tc:"color:var(--amber-600)"},{n:"4,210",l:"experiments completed",t:"company-wide",tc:"color:var(--text-muted)"},{n:"1,830",l:"staff reached habit",t:"≥10 challenges done",tc:"color:var(--teal-600)"},{n:"31",l:"teams using ≥2 AI tools",t:"vs 4 six months ago",tc:"color:var(--teal-600)"}],
+    progress: [
+      {l:"Bangkok",pct:79,col:"#534AB7"},{l:"Kuala Lumpur",pct:74,col:"#534AB7"},{l:"Jakarta",pct:61,col:"#7F77DD"},{l:"Shanghai",pct:55,col:"#7F77DD"},{l:"Phnom Penh",pct:42,col:"#AFA9EC"}
+    ],
+    note: "CEO quarterly dashboard includes: country adoption heatmap, function-level progress, top 5 employee stories, and one risk flag (offices or functions below 40% with a recommended action)."
+  }
+];
+
+function setMTab(i) {
+  document.querySelectorAll('.mtab').forEach((b,j)=>b.className='mtab'+(j===i?' active':''));
+  const d = mgmtData[i];
+  document.getElementById('mgmt-panels').innerHTML = `
+    <div class="card">
+      <h3 style="margin-bottom:4px;">${d.title}</h3>
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:1.25rem;">${d.desc}</p>
+      <div class="stat-grid">
+        ${d.stats.map(s=>`<div class="stat-box"><div class="stat-num">${s.n}</div><div class="stat-lbl">${s.l}</div><div class="stat-trend ${s.tc}">${s.t}</div></div>`).join('')}
+      </div>
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--text-muted);margin-bottom:10px;">Challenge completion by area</div>
+      ${d.progress.map(p=>`
+        <div class="progress-row">
+          <div class="progress-label">${p.l}</div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${p.pct}%;background:${p.col};"></div></div>
+          <div class="progress-pct">${p.pct}%</div>
+        </div>`).join('')}
+      <div style="margin-top:1.25rem;padding:1rem;background:var(--gray-50);border-radius:var(--radius-md);border-left:3px solid var(--amber-400);">
+        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--amber-600);margin-bottom:4px;">Design note</div>
+        <div style="font-size:13px;color:var(--text-secondary);line-height:1.6;">${d.note}</div>
+      </div>
+    </div>`;
+}
+
+const fnNames = Object.keys(fnData);
+const fnTabContainer = document.getElementById('fn-tabs');
+fnNames.forEach(fn => {
+  const b = document.createElement('button');
+  b.className = 'fntab' + (fn==='Claims'?' active':'');
+  b.id = 'fnt-'+fn.replace(/\s/g,'_');
+  b.textContent = fn;
+  b.onclick = ()=>setFnTab(fn);
+  fnTabContainer.appendChild(b);
+});
+
+setJTab(0);
+setFnTab('Claims');
+setMTab(0);
+
+const navLinks = document.querySelectorAll('.nav-link');
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
+  navLinks.forEach(l => { l.classList.toggle('active', l.getAttribute('href')==='#'+cur); });
+});
 </script>
+</body>
+</html>
